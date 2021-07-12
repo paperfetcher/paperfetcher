@@ -40,6 +40,6 @@ jobs:
         cd ../..
     - name: Integration tests
       run: |
-        cd tests
-        pytest test_integration.py
-        cd ..
+        cd tests/tests_integration
+        pytest
+        cd ../..
