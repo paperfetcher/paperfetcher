@@ -2,7 +2,9 @@ from paperfetcher.datastructures import Query, CrossrefQuery, QueryError
 
 
 def test_query():
-    query = Query("")
+    query = Query("https://api.github.com")
+    query()
+    print(query.response.text)
 
 
 def test_query_fail():
@@ -17,8 +19,13 @@ def test_query_fail():
 
 def test_crossref_query():
     query = CrossrefQuery()
+    query.query_base += "works"
     query()
+    print(query.response.text)
 
 
 def test_json():
-    pass
+    query = CrossrefQuery()
+    query.query_base += "works"
+    query()
+    print(query.response.json())

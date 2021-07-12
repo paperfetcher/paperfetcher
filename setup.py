@@ -9,5 +9,5 @@ setup(name='paperfetcher',
       url='https://github.com/paperfetcher/paperfetcher',
       packages=['paperfetcher'],
       install_requires=[
-          'urllib3'
+          'requests'
       ],)
