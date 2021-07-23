@@ -1,10 +1,16 @@
 from paperfetcher.datastructures import Query, CrossrefQuery, QueryError
+import sys
+import logging
+logger = logging.getLogger(__name__)
+
+# Set logging default to DEBUG
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 def test_query():
     query = Query("https://api.github.com")
     query()
-    print(query.response.text)
+    logger.info(query.response.text)
 
 
 def test_query_fail():
@@ -21,11 +27,11 @@ def test_crossref_query():
     query = CrossrefQuery()
     query.query_base += "works"
     query()
-    print(query.response.text)
+    logger.info(query.response.text)
 
 
 def test_json():
     query = CrossrefQuery()
     query.query_base += "works"
     query()
-    print(query.response.json())
+    logger.info(query.response.json())

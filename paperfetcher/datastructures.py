@@ -1,9 +1,16 @@
-"""Custom data structures (classes) for paperfetcher"""
+"""
+Custom data structures (classes) for paperfetcher.
+"""
+
 from collections import OrderedDict
 from paperfetcher import _useragent, _crossref_plus, _crossref_plus_auth_token
-from paperfetcher.exceptions import QueryError
+from paperfetcher.exceptions import QueryError, DatasetError
 import requests
 import sys
+
+# Logging
+import logging
+logger = logging.getLogger(__name__)
 
 ################################################################################
 # Structures for storing query information, executing queries, and
@@ -33,10 +40,18 @@ class Query:
         else:
             raise RuntimeError("Need to run Query first before accessing its response.")
 
+    def _log_request(self, response, *args, **kwargs):
+        logger.debug("\n-----Request-----\nMethod: {}\nURL: {}\nBody: {}\nHeaders: {}\n-----------------\n".
+                     format(response.request.method,
+                            response.request.url,
+                            response.request.body,
+                            response.request.headers))
+
     def __call__(self):
         """Runs query and stores response."""
         try:
-            self.__response = requests.get(self.query_base, params=self.query_params, headers=self.headers)
+            self.__response = requests.get(self.query_base, params=self.query_params,
+                                           headers=self.headers, hooks={'response': self._log_request})
 
         except requests.exceptions.ConnectionError as e:
             raise QueryError("Unable to run query, could not reach server:" + str(e)).with_traceback(sys.exc_info()[2])
@@ -87,16 +102,47 @@ class CrossrefQuery(Query):
 
 
 ################################################################################
-# Structures for storing citation datasets.
+# Structures for storing results.
 ################################################################################
 
 
-class CitationDataset:
-    """Abstract class for citation datasets."""
-    def __init__(self, items: list):
-        self.items = list(items)
+class Dataset:
+    """Abstract class for datasets."""
+    def __init__(self, items: list = []):
+        self._items = list(items)
 
-    # Basic functionality for all child classes to implement.
+    def __len__(self):
+        return len(self.items)
+
+    def append(self, item):
+        self._items.append(item)
+
+    # Basic functionality.
+
+    def to_df(self, file):
+        """Converts dataset to DataFrame."""
+        # Child class must implement this.
+        pass
+
+    def save_txt(self, file):
+        """Saves dataset to .txt file."""
+        # Child class must implement this.
+        pass
+
+    def save_csv(self, file):
+        """Saves dataset to .csv file."""
+        # Child class must implement this.
+        pass
+
+    def save_xls(self, file):
+        """Saves dataset to Excel file."""
+        # Child class must implement this.
+        pass
+
+
+class DOIDataset(Dataset):
+    def __init__(self, items: list):
+        super().__init__()
 
     def to_df(self, file):
         """Converts dataset to DataFrame."""
@@ -114,25 +160,20 @@ class CitationDataset:
         """Saves dataset to Excel file."""
         pass
 
-
-class DOIDataset(CitationDataset):
-    def __init__(self, items: list):
-        super().__init__()
-
     def save_RIS(self, file):
-        """Saves dataset in RIS format to file."""
+        """Saves dataset to RIS file."""
         pass
 
 
-class BibDataset(CitationDataset):
-    def __init__(self, items: list):
+class CitatationsDataset(Dataset):
+    def __init__(self, num_fields: int, items: list = []):
         super().__init__()
+        self.num_fields = num_fields
+        for itemidx, item in enumerate(self._items):
+            if len(item) != self.num_fields:
+                raise DatasetError("Item # %d is of incorrect length." % itemidx)
 
-    def save_RIS(self, file):
-        """Saves dataset in RIS format to file."""
-        pass
-
-
-class CustomDataset(CitationDataset):
-    def __init__(self, items: list):
-        super().__init__()
+    def append(self, item):
+        if len(item) != self.num_fields:
+            raise DatasetError("Item is of incorrect length.")
+        super().append(item)
