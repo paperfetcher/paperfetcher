@@ -112,7 +112,7 @@ class Dataset:
         self._items = list(items)
 
     def __len__(self):
-        return len(self.items)
+        return len(self._items)
 
     def append(self, item):
         self._items.append(item)
@@ -141,8 +141,9 @@ class Dataset:
 
 
 class DOIDataset(Dataset):
+    # Internal representation: list of DOIs
     def __init__(self, items: list):
-        super().__init__()
+        super().__init__(items)
 
     def to_df(self, file):
         """Converts dataset to DataFrame."""
@@ -165,13 +166,14 @@ class DOIDataset(Dataset):
         pass
 
 
-class CitatationsDataset(Dataset):
+class CitationsDataset(Dataset):
+    # Internal representation: list of fields
     def __init__(self, num_fields: int, items: list = []):
-        super().__init__()
+        super().__init__(items)
         self.num_fields = num_fields
         for itemidx, item in enumerate(self._items):
             if len(item) != self.num_fields:
-                raise DatasetError("Item # %d is of incorrect length." % itemidx)
+                raise DatasetError("Item at index %d is of incorrect length." % itemidx)
 
     def append(self, item):
         if len(item) != self.num_fields:

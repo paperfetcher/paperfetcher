@@ -4,7 +4,7 @@ New parsers can be added here.
 """
 
 
-def crossref_parse_date(date):
+def crossref_date_parser(date):
     """Function to parse date.
 
     Returns:
@@ -12,7 +12,7 @@ def crossref_parse_date(date):
     return "-".join([str(num) for num in date['date-parts'][0]])
 
 
-def crossref_parse_authors(author_array):
+def crossref_authors_parser(author_array):
     """Function to parse authors.
 
     Returns:
@@ -24,7 +24,7 @@ def crossref_parse_authors(author_array):
     return authors
 
 
-def crossref_parse_title(title):
+def crossref_title_parser(title):
     """Function to parse title.
 
     Returns:
