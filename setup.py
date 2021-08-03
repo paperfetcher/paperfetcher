@@ -12,5 +12,6 @@ setup(name='paperfetcher',
           'requests',
           'tqdm',
           'pandas',
+          'openpyxl',
           'pytest'
       ],)
