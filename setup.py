@@ -10,5 +10,7 @@ setup(name='paperfetcher',
       packages=['paperfetcher'],
       install_requires=[
           'requests',
-          'tqdm'
+          'tqdm',
+          'pandas',
+          'pytest'
       ],)

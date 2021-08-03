@@ -7,6 +7,10 @@ from paperfetcher import _useragent, _crossref_plus, _crossref_plus_auth_token
 from paperfetcher.exceptions import QueryError, DatasetError
 import requests
 import sys
+import contextlib
+
+import pandas as pd
+import csv
 
 # Logging
 import logging
@@ -119,25 +123,25 @@ class Dataset:
 
     # Basic functionality.
 
-    def to_df(self, file):
+    def to_df(self):
         """Converts dataset to DataFrame."""
         # Child class must implement this.
-        pass
+        raise NotImplementedError()
 
     def save_txt(self, file):
         """Saves dataset to .txt file."""
         # Child class must implement this.
-        pass
+        raise NotImplementedError()
 
     def save_csv(self, file):
         """Saves dataset to .csv file."""
         # Child class must implement this.
-        pass
+        raise NotImplementedError()
 
-    def save_xls(self, file):
+    def save_excel(self, file):
         """Saves dataset to Excel file."""
         # Child class must implement this.
-        pass
+        raise NotImplementedError()
 
 
 class DOIDataset(Dataset):
@@ -145,32 +149,51 @@ class DOIDataset(Dataset):
     def __init__(self, items: list):
         super().__init__(items)
 
-    def to_df(self, file):
+    def to_df(self):
         """Converts dataset to DataFrame."""
-        pass
+        return pd.DataFrame(self._items, columns=['DOI'])
 
     def save_txt(self, file):
         """Saves dataset to .txt file."""
-        pass
+        if hasattr(file, 'write'):
+            file_ctx = contextlib.nullcontext(file)
+        else:
+            if not file.endswith('.txt'):
+                file = file + '.txt'
+            file_ctx = open(file, "w")
+
+        with file_ctx as f:
+            for doi in self._items:
+                f.write(doi + "\n")
 
     def save_csv(self, file):
         """Saves dataset to .csv file."""
-        pass
+        if hasattr(file, 'write'):
+            file_ctx = contextlib.nullcontext(file)
+        else:
+            if not file.endswith('.csv'):
+                file = file + '.csv'
+            file_ctx = open(file, "w")
 
-    def save_xls(self, file):
-        """Saves dataset to Excel file."""
-        pass
+        with file_ctx as f:
+            write = csv.writer(f)
+            write.writerow(["DOI"])
+            write.writerows([[item] for item in self._items])
 
-    def save_RIS(self, file):
-        """Saves dataset to RIS file."""
-        pass
+    def save_excel(self, file):
+        """Saves dataset to Excel file (uses Pandas)."""
+        if not file.endswith('.xlsx'):
+            file = file + '.xlsx'
+        df = pd.DataFrame(self._items, columns=['DOI'])
+        df.to_excel(file)
 
 
 class CitationsDataset(Dataset):
     # Internal representation: list of fields
-    def __init__(self, num_fields: int, items: list = []):
+    def __init__(self, field_names: tuple, items: list = []):
         super().__init__(items)
-        self.num_fields = num_fields
+        self.field_names = field_names
+        self.num_fields = len(field_names)
         for itemidx, item in enumerate(self._items):
             if len(item) != self.num_fields:
                 raise DatasetError("Item at index %d is of incorrect length." % itemidx)
@@ -179,3 +202,42 @@ class CitationsDataset(Dataset):
         if len(item) != self.num_fields:
             raise DatasetError("Item is of incorrect length.")
         super().append(item)
+
+    def to_df(self):
+        """Converts dataset to DataFrame."""
+        return pd.DataFrame(self._items, columns=self.field_names)
+
+    def save_txt(self, file):
+        """Saves dataset to .txt file."""
+        if hasattr(file, 'write'):
+            file_ctx = contextlib.nullcontext(file)
+        else:
+            if not file.endswith('.txt'):
+                file = file + '.txt'
+            file_ctx = open(file, "w")
+
+        with file_ctx as f:
+            f.write("\t".join(self.field_names) + "\n")
+            for item in self._items:
+                f.write("\t".join(item) + "\n")
+
+    def save_csv(self, file):
+        """Saves dataset to .csv file."""
+        if hasattr(file, 'write'):
+            file_ctx = contextlib.nullcontext(file)
+        else:
+            if not file.endswith('.csv'):
+                file = file + '.csv'
+            file_ctx = open(file, "w")
+
+        with file_ctx as f:
+            write = csv.writer(f)
+            write.writerow(self.field_names)
+            write.writerows(self._items)
+
+    def save_excel(self, file):
+        """Saves dataset to Excel file (uses Pandas)."""
+        if not file.endswith('.xlsx'):
+            file = file + '.xlsx'
+        df = pd.DataFrame(self._items, columns=self.field_names)
+        df.to_excel(file)

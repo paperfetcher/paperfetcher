@@ -193,4 +193,4 @@ class CrossrefSearch:
         for work in self.results:
             Citationlist.append(self._extract_fields(work, field_list, field_parsers_list))
         logger.debug(Citationlist)
-        return CitationsDataset(len(field_list), Citationlist)
+        return CitationsDataset(field_list, Citationlist)

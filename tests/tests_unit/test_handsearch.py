@@ -1,3 +1,8 @@
+"""
+Unit test suite for paperfetcher.handsearch package.
+
+@author Akash Pallath
+"""
 from paperfetcher import handsearch
 import logging
 import sys
