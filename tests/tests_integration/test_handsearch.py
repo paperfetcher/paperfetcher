@@ -2,12 +2,14 @@
 Integration tests for paperfetcher.handsearch package.
 
 @author Akash Pallath
+This code is licensed under the MIT license (see LICENSE.txt for details).
 """
+import logging
+import os
+import sys
+
 from paperfetcher import handsearch
 from paperfetcher import parsers
-import logging
-import sys
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +56,7 @@ def test_Crossref_JACS_hydration_DOIDataset():
 def test_Crossref_JACS_hydration_CitationsDataset():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=["hydration"], from_date="2018-01-01",
                                        until_date="2020-01-01")
-    search()
-    #search(select=True, select_fields=['DOI', 'URL', 'title', 'author', 'issued'])
+    search(select=True, select_fields=['DOI', 'URL', 'title', 'author', 'issued'])
 
     # Check raw
     for idx, batch in enumerate(search.results):

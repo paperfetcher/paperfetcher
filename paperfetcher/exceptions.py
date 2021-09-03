@@ -1,4 +1,8 @@
-"""Definitions of all Exceptions raised by paperfetcher."""
+"""Definitions of all Exceptions raised by paperfetcher.
+
+@author Akash Pallath
+This code is licensed under the MIT license (see LICENSE.txt for details).
+"""
 
 
 class QueryError(Exception):

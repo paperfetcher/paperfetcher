@@ -1,15 +1,21 @@
 """
 Module documentation goes here.
+
+@author Akash Pallath
+This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 
 from collections import OrderedDict
-from paperfetcher.exceptions import QueryError
-from paperfetcher.datastructures import CrossrefQuery, DOIDataset, CitationsDataset
-from tqdm import tqdm
 import pickle
+import logging
+
+from tqdm import tqdm
+
+from paperfetcher.apiclients import CrossrefQuery
+from paperfetcher.datastructures import DOIDataset, CitationsDataset
+from paperfetcher.exceptions import QueryError
 
 # Logging
-import logging
 logger = logging.getLogger(__name__)
 
 
@@ -31,17 +37,13 @@ class CrossrefSearch:
         # Results
         self.results = []
 
-    ############################################################################
     # Properties
-    ############################################################################
     def __len__(self):
         return len(self.results)
 
-    ############################################################################
     # Search workers (class methods)
-    ############################################################################
     @classmethod
-    def _check_issn_exists(self, issn: str):
+    def _check_issn_exists(cls, issn: str):
         """Checks if ISSN exists in Crossref.
 
         Args:
@@ -55,7 +57,7 @@ class CrossrefSearch:
         return query.response.status_code == 200
 
     @classmethod
-    def _fetch_count(self, issn: str, query_params=OrderedDict()):
+    def _fetch_count(cls, issn: str, query_params=OrderedDict()):
         """Fetches number of works in journal that match criteria.
 
         Args:
@@ -67,7 +69,7 @@ class CrossrefSearch:
         # Retrive summary of results only
         query_params['rows'] = 0
 
-        if self._check_issn_exists(issn):
+        if cls._check_issn_exists(issn):
             components = OrderedDict([("journals", str(issn)),
                                       ("works", None)])
             query = CrossrefQuery(components,
@@ -79,7 +81,7 @@ class CrossrefSearch:
             raise QueryError("ISSN does not exist.")
 
     @classmethod
-    def _fetch_batch(self, issn: str, query_params=OrderedDict(), size=20,
+    def _fetch_batch(cls, issn: str, query_params=OrderedDict(), size=20,
                      offset=0):
         """Fetches a batch of works.
 
@@ -95,7 +97,7 @@ class CrossrefSearch:
         query_params['rows'] = size
         query_params['offset'] = offset
 
-        if self._check_issn_exists(issn):
+        if cls._check_issn_exists(issn):
             components = OrderedDict([("journals", str(issn)),
                                       ("works", None)])
             query = CrossrefQuery(components,
@@ -107,7 +109,7 @@ class CrossrefSearch:
             raise QueryError("ISSN does not exist.")
 
     @classmethod
-    def _extract_fields(self, json_item, field_list, field_parsers_list):
+    def _extract_fields(cls, json_item, field_list, field_parsers_list):
         """Extracts data corresponding to given list of fields from the JSON
         response returned by the Crossref API.
 
@@ -131,14 +133,12 @@ class CrossrefSearch:
                 output_item.append("")
         return output_item
 
-    ############################################################################
     # Perform search
     #
     # If select is False, a full (memory and time intensive) search is performed,
     # fetching all metadata associated with each journal work.
     # If select is True, a subset of fields to fetch can be specified using the
     # select_fields parameters.
-    ############################################################################
     def __call__(self, display_progress_bar=True, select=False, select_fields=[]):
         query_params = OrderedDict()
         query_params['query'] = "+".join(self.keyword_list)
@@ -166,9 +166,7 @@ class CrossrefSearch:
                                       offset)
             self.results += (batch['items'])
 
-    ############################################################################
-    # Save and load state of search (query & results) to file.
-    ############################################################################
+    # Save/load state of search (query & results) to/from file.
     def save(self, file):
         with open(file, "wb") as f:
             pickle.dump(self.__dict__, f)
@@ -178,9 +176,7 @@ class CrossrefSearch:
         with open(file, "rb") as f:
             self.__dict__.update(pickle.load(f))
 
-    ############################################################################
     # Transform raw search results into datasets
-    ############################################################################
     def get_DOIDataset(self):
         DOIlist = []
         for work in self.results:
