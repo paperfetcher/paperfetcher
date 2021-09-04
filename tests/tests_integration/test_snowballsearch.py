@@ -1,15 +1,12 @@
+# @author Akash Pallath
+# This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 Integration tests for paperfetcher.snowballsearch package.
-
-@author Akash Pallath
-This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 from paperfetcher import snowballsearch
-from paperfetcher.datastructures import DOIDataset
 
 import logging
 import sys
-import os
 
 logger = logging.getLogger(__name__)
 

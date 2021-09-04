@@ -1,0 +1,1009 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>paperfetcher package &mdash; paperfetcher 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> paperfetcher
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">paperfetcher package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.apiclients">paperfetcher.apiclients module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.datastructures">paperfetcher.datastructures module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.exceptions">paperfetcher.exceptions module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.handsearch">paperfetcher.handsearch module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.nbutils">paperfetcher.nbutils module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.parsers">paperfetcher.parsers module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher.snowballsearch">paperfetcher.snowballsearch module</a></li>
+<li><a class="reference internal" href="#module-paperfetcher">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">paperfetcher</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>paperfetcher package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/paperfetcher.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="paperfetcher-package">
+<h1>paperfetcher package<a class="headerlink" href="#paperfetcher-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-paperfetcher.apiclients">
+<span id="paperfetcher-apiclients-module"></span><h2>paperfetcher.apiclients module<a class="headerlink" href="#module-paperfetcher.apiclients" title="Permalink to this headline">¶</a></h2>
+<p>Client implementations to communicate with various APIs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only the Crossref REST API is supported for now. Support for other APIs will be added soon.</p>
+</div>
+<dl class="class">
+<dt id="paperfetcher.apiclients.CrossrefQuery">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.apiclients.</code><code class="sig-name descname">CrossrefQuery</code><span class="sig-paren">(</span><em class="sig-param">components={}</em>, <em class="sig-param">query_params={}</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#paperfetcher.apiclients.Query" title="paperfetcher.apiclients.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">paperfetcher.apiclients.Query</span></code></a></p>
+<p>Class for structuring and executing Crossref REST API queries.</p>
+<p>Query components can be added to the base URL by passing an ordered dictionary to the components argument.
+For example, the components dictionary <cite>{“comp1-key”: “comp1-value”, “comp2”: None}</cite> changes
+the query URL to <cite>https://api.crossref.org/comp1-key/comp1-value/comp2/</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>components</strong> (<em>collections.OrderedDict</em>) – Components to append to the base URL.</p></li>
+<li><p><strong>query_params</strong> (<em>collections.OrderedDict</em>) – Ordered dictionary of query parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.CrossrefQuery.components">
+<code class="sig-name descname">components</code><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery.components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Components to append to the base URL.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>collections.OrderedDict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.CrossrefQuery.query_base">
+<code class="sig-name descname">query_base</code><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery.query_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base URL for query (<a class="reference external" href="https://api.crossref.org/">https://api.crossref.org/</a>…).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.CrossrefQuery.query_params">
+<code class="sig-name descname">query_params</code><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery.query_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of query parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>collections.OrderedDict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.CrossrefQuery.headers">
+<code class="sig-name descname">headers</code><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of HTTP headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.CrossrefQuery.response">
+<code class="sig-name descname">response</code><a class="headerlink" href="#paperfetcher.apiclients.CrossrefQuery.response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response recieved on executing GET query to the Crossref API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>requests.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>Querying the metadata of a paper with a known DOI:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="n">CrossrefQuery</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;works&quot;</span><span class="p">:</span> <span class="s2">&quot;10.1021/acs.jpcb.1c02191&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span>
+<span class="go">&lt;Response [200]&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="go">{&#39;status&#39;: &#39;ok&#39;, &#39;message-type&#39;: &#39;work&#39;, &#39;message-version&#39;: &#39;1.0.0&#39;,</span>
+<span class="go">&#39;message&#39;: {...}}</span>
+</pre></div>
+</div>
+<p>Query to fetch all articles from a journal with a known ISSN:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s2">&quot;journals&quot;</span><span class="p">,</span> <span class="s2">&quot;1520-5126&quot;</span><span class="p">),</span>
+<span class="go">                          (&quot;works&quot;, None)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="n">CrossrefQuery</span><span class="p">(</span><span class="n">components</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span>
+<span class="go">&lt;Response [200]&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="go">{&#39;status&#39;: &#39;ok&#39;, &#39;message-type&#39;: &#39;work&#39;, &#39;message-version&#39;: &#39;1.0.0&#39;,</span>
+<span class="go">&#39;message&#39;: {...}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="paperfetcher.apiclients.Query">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.apiclients.</code><code class="sig-name descname">Query</code><span class="sig-paren">(</span><em class="sig-param">base_url=None</em>, <em class="sig-param">query_params: dict = {}</em>, <em class="sig-param">headers: str = {}</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.apiclients.Query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for structuring and executing HTTP GET queries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_url</strong> (<em>str</em>) – Base URL for query (such as api.xyz.com/get).</p></li>
+<li><p><strong>query_params</strong> (<em>dict</em>) – Dictionary of query parameters.</p></li>
+<li><p><strong>headers</strong> (<em>dict</em>) – Dictionary of HTTP headers to pass along with the query.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.Query.query_base">
+<code class="sig-name descname">query_base</code><a class="headerlink" href="#paperfetcher.apiclients.Query.query_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base URL for query (such as api.xyz.com/get).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.Query.query_params">
+<code class="sig-name descname">query_params</code><a class="headerlink" href="#paperfetcher.apiclients.Query.query_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of query parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.Query.headers">
+<code class="sig-name descname">headers</code><a class="headerlink" href="#paperfetcher.apiclients.Query.headers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary of HTTP headers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.apiclients.Query.response">
+<code class="sig-name descname">response</code><a class="headerlink" href="#paperfetcher.apiclients.Query.response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response recieved on executing GET query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>requests.Response</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>A simple Query to the Github REST API:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="s2">&quot;https://api.github.com&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span>
+<span class="go">&lt;Response [200]&gt;</span>
+</pre></div>
+</div>
+<p>A Query to the Github REST API to fetch a list of all public repositories in the paperfetcher organization:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="s2">&quot;https://api.github.com/orgs/paperfetcher/repos&quot;</span><span class="p">,</span>
+<span class="gp">... </span>              <span class="n">query_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;public&quot;</span><span class="p">},</span>
+<span class="gp">... </span>              <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/vnd.github.v3+json&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span><span class="o">.</span><span class="n">response</span>
+<span class="go">&lt;Response [200]&gt;</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt>
+<em class="property">property </em><code class="sig-name descname">response</code></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher.datastructures">
+<span id="paperfetcher-datastructures-module"></span><h2>paperfetcher.datastructures module<a class="headerlink" href="#module-paperfetcher.datastructures" title="Permalink to this headline">¶</a></h2>
+<p>Custom data structures for paperfetcher.</p>
+<dl class="class">
+<dt id="paperfetcher.datastructures.CitationsDataset">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.datastructures.</code><code class="sig-name descname">CitationsDataset</code><span class="sig-paren">(</span><em class="sig-param">field_names: tuple</em>, <em class="sig-param">items: list = []</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#paperfetcher.datastructures.Dataset" title="paperfetcher.datastructures.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">paperfetcher.datastructures.Dataset</span></code></a></p>
+<p>Stores a tabular dataset of citations, with multiple custom fields.</p>
+<p>CitationsDatasets can be exported to pandas DataFrames, and loaded from or saved to disk
+in text, CSV, or Excel file formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_names</strong> (<em>tuple</em>) – Names (str) of fields.</p></li>
+<li><p><strong>items</strong> (<em>list</em>) – List of citations to store (default=[]). Each citation should be an iterable of length len(field_names).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>To create a CitationsDataset object to store the DOI, URL, article title, authors, and date of issue for each citation:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">field_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DOI&quot;</span><span class="p">,</span> <span class="s2">&quot;URL&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">,</span> <span class="s2">&quot;issued&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;10.xxyy/0.0.0.000001&quot;</span><span class="p">,</span> <span class="s2">&quot;https://dx.doi.org/10.xxyy/0.0.0.000001&quot;</span><span class="p">,</span> <span class="s2">&quot;A study of A&quot;</span><span class="p">,</span> <span class="s2">&quot;P, Q and R&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-02-20&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="s2">&quot;10.xxyy/0.0.0.000002&quot;</span><span class="p">,</span> <span class="s2">&quot;https://dx.doi.org/10.xxyy/0.0.0.000002&quot;</span><span class="p">,</span> <span class="s2">&quot;An investigation into B&quot;</span><span class="p">,</span> <span class="s2">&quot;Q, R and P&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-03-20&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="s2">&quot;10.xxyy/0.0.0.000003&quot;</span><span class="p">,</span> <span class="s2">&quot;https://dx.doi.org/10.xxyy/0.0.0.000003&quot;</span><span class="p">,</span> <span class="s2">&quot;The causes of C in D&quot;</span><span class="p">,</span> <span class="s2">&quot;R, P and Q&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-04-20&quot;</span><span class="p">],</span>
+<span class="gp">... </span>        <span class="p">[</span><span class="s2">&quot;10.xxyy/0.0.0.000004&quot;</span><span class="p">,</span> <span class="s2">&quot;https://dx.doi.org/10.xxyy/0.0.0.000004&quot;</span><span class="p">,</span> <span class="s2">&quot;Characterizing the role of E on F&quot;</span><span class="p">,</span> <span class="s2">&quot;P and Q&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-05-20&quot;</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">CitationsDataset</span><span class="p">(</span><span class="n">field_names</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To add a citation to the CitationsDataset:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="s2">&quot;10.xxyy/0.0.0.000005&quot;</span><span class="p">,</span> <span class="s2">&quot;https://dx.doi.org/10.xxyy/0.0.0.000005&quot;</span><span class="p">,</span> <span class="s2">&quot;The G effect&quot;</span><span class="p">,</span> <span class="s2">&quot;Q and P&quot;</span><span class="p">,</span> <span class="s2">&quot;2020-06-20&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To export the DOIDataset object to a pandas DataFrame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">                    DOI                                      URL                              title      author      issued</span>
+<span class="go">0  10.xxyy/0.0.0.000001  https://dx.doi.org/10.xxyy/0.0.0.000001                       A study of A  P, Q and R  2020-02-20</span>
+<span class="go">1  10.xxyy/0.0.0.000002  https://dx.doi.org/10.xxyy/0.0.0.000002            An investigation into B  Q, R and P  2020-03-20</span>
+<span class="go">2  10.xxyy/0.0.0.000003  https://dx.doi.org/10.xxyy/0.0.0.000003               The causes of C in D  R, P and Q  2020-04-20</span>
+<span class="go">3  10.xxyy/0.0.0.000004  https://dx.doi.org/10.xxyy/0.0.0.000004  Characterizing the role of E on F     P and Q  2020-05-20</span>
+<span class="go">4  10.xxyy/0.0.0.000005  https://dx.doi.org/10.xxyy/0.0.0.000005                       The G effect     Q and P  2020-06-20</span>
+</pre></div>
+</div>
+<p>To save data to disk:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_txt</span><span class="p">(</span><span class="s2">&quot;cits.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;cits.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_excel</span><span class="p">(</span><span class="s2">&quot;cits.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create a DOIDataset object from files on disk:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">CitationsDataset</span><span class="o">.</span><span class="n">from_txt</span><span class="p">(</span><span class="s2">&quot;cits.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">CitationsDataset</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s2">&quot;cits.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">CitationsDataset</span><span class="o">.</span><span class="n">from_excel</span><span class="p">(</span><span class="s2">&quot;cits.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a citation to the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">items</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds each citation from a list of citations (i.e. eacher inner list of nested list) to the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.save_csv">
+<code class="sig-name descname">save_csv</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.save_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .csv file. The first row of the CSV file contains field names.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.save_excel">
+<code class="sig-name descname">save_excel</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.save_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to Excel file (uses Pandas). The first row of the Excel file contains field names.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.save_txt">
+<code class="sig-name descname">save_txt</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.save_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .txt file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.CitationsDataset.to_df">
+<code class="sig-name descname">to_df</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.CitationsDataset.to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts dataset to DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="paperfetcher.datastructures.DOIDataset">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.datastructures.</code><code class="sig-name descname">DOIDataset</code><span class="sig-paren">(</span><em class="sig-param">items: list = []</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.DOIDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#paperfetcher.datastructures.Dataset" title="paperfetcher.datastructures.Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">paperfetcher.datastructures.Dataset</span></code></a></p>
+<p>Stores a dataset of DOIs.</p>
+<p>DOIDatasets can be exported to pandas DataFrames, and loaded from or saved to disk
+in text, CSV, or Excel file formats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>list</em>) – List of DOIs (str) to store (default=[]).</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>To create a DOIDataset object from a list of DOIs:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">DOIDataset</span><span class="p">([</span><span class="s2">&quot;x1.y1.z1/123123&quot;</span><span class="p">,</span> <span class="s2">&quot;x2.y2.z2/456456&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To add a DOI to the DOIDataset object:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;x3.y3.z3/789789&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To export the DOIDataset object to a pandas DataFrame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">               DOI</span>
+<span class="go">0  x1.y1.z1/123123</span>
+<span class="go">1  x2.y2.z2/456456</span>
+<span class="go">3  x3.y3.z3/789789</span>
+</pre></div>
+</div>
+<p>To save data to disk:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_txt</span><span class="p">(</span><span class="s2">&quot;dois.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;dois.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">save_excel</span><span class="p">(</span><span class="s2">&quot;dois.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create a DOIDataset object from files on disk:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">DOIDataset</span><span class="o">.</span><span class="n">from_txt</span><span class="p">(</span><span class="s2">&quot;dois.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">DOIDataset</span><span class="o">.</span><span class="n">from_csv</span><span class="p">(</span><span class="s2">&quot;dois.csv&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">DOIDataset</span><span class="o">.</span><span class="n">from_excel</span><span class="p">(</span><span class="s2">&quot;dois.xlsx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="paperfetcher.datastructures.DOIDataset.save_csv">
+<code class="sig-name descname">save_csv</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.DOIDataset.save_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .csv file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.DOIDataset.save_excel">
+<code class="sig-name descname">save_excel</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.DOIDataset.save_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to Excel file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.DOIDataset.save_txt">
+<code class="sig-name descname">save_txt</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.DOIDataset.save_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .txt file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.DOIDataset.to_df">
+<code class="sig-name descname">to_df</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.DOIDataset.to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts dataset to DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="paperfetcher.datastructures.Dataset">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.datastructures.</code><code class="sig-name descname">Dataset</code><span class="sig-paren">(</span><em class="sig-param">items: list = []</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract interface that defines functions for child Dataset classes to implement.</p>
+<p>Datasets are designed to store tabular data (as input to or output from paperfetcher searches), export
+tabular data to pandas DataFrames, and load/save data to disk using common data formats (txt, csv, xlsx).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>iterable</em>) – Items to store in dataset (default=[]).</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">item</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an item to the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">items: list</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds each item from a list of items to the dataset.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.from_csv">
+<em class="property">classmethod </em><code class="sig-name descname">from_csv</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.from_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads dataset from .csv file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.from_excel">
+<em class="property">classmethod </em><code class="sig-name descname">from_excel</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.from_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads dataset from Excel file file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.from_txt">
+<em class="property">classmethod </em><code class="sig-name descname">from_txt</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.from_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads dataset from .txt file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.save_csv">
+<code class="sig-name descname">save_csv</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.save_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .csv file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.save_excel">
+<code class="sig-name descname">save_excel</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.save_excel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to Excel file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.save_txt">
+<code class="sig-name descname">save_txt</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.save_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves dataset to .txt file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.datastructures.Dataset.to_df">
+<code class="sig-name descname">to_df</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.datastructures.Dataset.to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts dataset to DataFrame.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher.exceptions">
+<span id="paperfetcher-exceptions-module"></span><h2>paperfetcher.exceptions module<a class="headerlink" href="#module-paperfetcher.exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Definitions of all Exceptions raised by paperfetcher.</p>
+<dl class="exception">
+<dt id="paperfetcher.exceptions.DatasetError">
+<em class="property">exception </em><code class="sig-prename descclassname">paperfetcher.exceptions.</code><code class="sig-name descname">DatasetError</code><a class="headerlink" href="#paperfetcher.exceptions.DatasetError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when an incorrect operation is performed on a dataset.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="paperfetcher.exceptions.QueryError">
+<em class="property">exception </em><code class="sig-prename descclassname">paperfetcher.exceptions.</code><code class="sig-name descname">QueryError</code><a class="headerlink" href="#paperfetcher.exceptions.QueryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when query fails.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="paperfetcher.exceptions.SearchError">
+<em class="property">exception </em><code class="sig-prename descclassname">paperfetcher.exceptions.</code><code class="sig-name descname">SearchError</code><a class="headerlink" href="#paperfetcher.exceptions.SearchError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised when search fails.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher.handsearch">
+<span id="paperfetcher-handsearch-module"></span><h2>paperfetcher.handsearch module<a class="headerlink" href="#module-paperfetcher.handsearch" title="Permalink to this headline">¶</a></h2>
+<p>Classes to fetch all journal works (articles) matching a set of keywords and within a given date range by querying various APIs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only the Crossref REST API is supported for now. Support for other APIs will be added soon.</p>
+</div>
+<dl class="class">
+<dt id="paperfetcher.handsearch.CrossrefSearch">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.handsearch.</code><code class="sig-name descname">CrossrefSearch</code><span class="sig-paren">(</span><em class="sig-param">ISSN=''</em>, <em class="sig-param">type='journal-article'</em>, <em class="sig-param">keyword_list=None</em>, <em class="sig-param">from_date=None</em>, <em class="sig-param">until_date=None</em>, <em class="sig-param">batch_size=20</em>, <em class="sig-param">sort_order='desc'</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Retrieves all works from a journal, given its ISSN, which match
+a set of keywords and are within a date range.</p>
+<p>Calling a CrossrefSearch object performs the search. A search object can be
+called with the arguments <cite>display_progress_bar</cite> (True/False; default=True) to
+toggle the display of a search progress bar, <cite>select</cite> (True/False; default=False), and
+<cite>select_fields</cite> (list) to query only a subset of metadata for each journal
+article.
+If select is False, a full (memory and time intensive) search is performed,
+fetching all metadata associated with each journal work.
+If select is True, a subset of fields to fetch can be specified using the
+select_fields parameter. Check the Crossref REST API doc
+for details on which field names are permissible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ISSN</strong> (<em>str</em>) – Journal (web) ISSN.</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – Type of works to fetch (default=”journal-article”).</p></li>
+<li><p><strong>keyword_list</strong> (<em>list</em>) – List of keywords (str) to query with.</p></li>
+<li><p><strong>from_date</strong> (<em>str</em>) – Fetch articles published from (and after) this date (format=”YYYY-MM-DD”).</p></li>
+<li><p><strong>until_date</strong> (<em>str</em>) – Fetch articles published until this date (format=”YYYY-MM-DD”).</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Number of works to fetch in each batch (default=20).</p></li>
+<li><p><strong>sort_order</strong> (<em>str</em>) – Order in which to sort works by date (“asc” or “desc”, default=”desc”).</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.ISSN">
+<code class="sig-name descname">ISSN</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.ISSN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Journal (web) ISSN.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.type">
+<code class="sig-name descname">type</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of works to fetch (default=”journal-article”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.keyword_list">
+<code class="sig-name descname">keyword_list</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.keyword_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of keywords (str) to query with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.from_date">
+<code class="sig-name descname">from_date</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.from_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch articles published from (and after) this date (format=”YYYY-MM-DD”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.until_date">
+<code class="sig-name descname">until_date</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.until_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch articles published until this date (format=”YYYY-MM-DD”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.batch_size">
+<code class="sig-name descname">batch_size</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of works to fetch in each batch (default=20).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.sort_order">
+<code class="sig-name descname">sort_order</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.sort_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Order in which to sort works by date (“asc” or “desc”, default=”desc”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.handsearch.CrossrefSearch.results">
+<code class="sig-name descname">results</code><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.results" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of dictionaries, each dictionary corresponds to a work.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">CrossrefSearch</span><span class="p">(</span><span class="n">ISSN</span><span class="o">=</span><span class="s2">&quot;1520-5126&quot;</span><span class="p">,</span> <span class="n">keyword_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;hydration&quot;</span><span class="p">],</span> <span class="n">from_date</span><span class="o">=</span><span class="s2">&quot;2018-01-01&quot;</span><span class="p">,</span> <span class="n">until_date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="p">)</span>
+<span class="go">13</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">get_DOIDataset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span><span class="o">.</span><span class="n">to_df</span><span class="p">()</span>
+<span class="go">                     DOI</span>
+<span class="go">0   10.1021/jacs.9b09103</span>
+<span class="go">1   10.1021/jacs.9b06862</span>
+<span class="go">2   10.1021/jacs.9b09111</span>
+<span class="go">3   10.1021/jacs.9b05874</span>
+<span class="go">4   10.1021/jacs.9b02820</span>
+<span class="go">5   10.1021/jacs.9b05136</span>
+<span class="go">6   10.1021/jacs.9b02742</span>
+<span class="go">7   10.1021/jacs.9b00577</span>
+<span class="go">8   10.1021/jacs.8b11448</span>
+<span class="go">9   10.1021/jacs.8b12877</span>
+<span class="go">10  10.1021/jacs.8b11667</span>
+<span class="go">11  10.1021/jacs.8b08298</span>
+<span class="go">12  10.1021/jacs.7b11537</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="paperfetcher.handsearch.CrossrefSearch.get_CitationsDataset">
+<code class="sig-name descname">get_CitationsDataset</code><span class="sig-paren">(</span><em class="sig-param">field_list=[]</em>, <em class="sig-param">field_parsers_list=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.get_CitationsDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses a selection of fields from search results and returns them as a CitationsDataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>field_list</strong> (<em>list</em>) – Names of fields to parse (see Crossref REST API doc for permissible field name values).</p></li>
+<li><p><strong>field_parsers_list</strong> (<em>list</em>) – List of field parser functions corresponding to each field name. A <cite>None</cite> value means that no parser
+is needed for that field.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CitationsDataset</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">handsearch</span><span class="o">.</span><span class="n">CrossrefSearch</span><span class="p">(</span><span class="n">ISSN</span><span class="o">=</span><span class="s2">&quot;1520-5126&quot;</span><span class="p">,</span> <span class="n">keyword_list</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;hydration&quot;</span><span class="p">],</span> <span class="n">from_date</span><span class="o">=</span><span class="s2">&quot;2018-01-01&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                   <span class="n">until_date</span><span class="o">=</span><span class="s2">&quot;2020-01-01&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">(</span><span class="n">select</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">select_fields</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;DOI&#39;</span><span class="p">,</span> <span class="s1">&#39;URL&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;issued&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">get_CitationsDataset</span><span class="p">(</span><span class="n">field_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;DOI&#39;</span><span class="p">,</span> <span class="s1">&#39;URL&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;issued&#39;</span><span class="p">],</span>
+<span class="gp">... </span>                                 <span class="n">field_parsers_list</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parsers</span><span class="o">.</span><span class="n">crossref_title_parser</span><span class="p">,</span>
+<span class="gp">... </span>                                                     <span class="n">parsers</span><span class="o">.</span><span class="n">crossref_authors_parser</span><span class="p">,</span> <span class="n">parsers</span><span class="o">.</span><span class="n">crossref_date_parser</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.handsearch.CrossrefSearch.get_DOIDataset">
+<code class="sig-name descname">get_DOIDataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.get_DOIDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts DOIs from search results and returns them as a DOIDataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DOIDataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.handsearch.CrossrefSearch.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads search data (query data and results) from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – Name of file (.pkl extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.handsearch.CrossrefSearch.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.handsearch.CrossrefSearch.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves search object (query and results) to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – Name of file (.pkl extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher.nbutils">
+<span id="paperfetcher-nbutils-module"></span><h2>paperfetcher.nbutils module<a class="headerlink" href="#module-paperfetcher.nbutils" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-paperfetcher.parsers">
+<span id="paperfetcher-parsers-module"></span><h2>paperfetcher.parsers module<a class="headerlink" href="#module-paperfetcher.parsers" title="Permalink to this headline">¶</a></h2>
+<p>Functions to parse data returned from queries.</p>
+<p>New parsers can be added here.</p>
+<dl class="function">
+<dt id="paperfetcher.parsers.crossref_authors_parser">
+<code class="sig-prename descclassname">paperfetcher.parsers.</code><code class="sig-name descname">crossref_authors_parser</code><span class="sig-paren">(</span><em class="sig-param">author_array</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.parsers.crossref_authors_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to parse authors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="paperfetcher.parsers.crossref_date_parser">
+<code class="sig-prename descclassname">paperfetcher.parsers.</code><code class="sig-name descname">crossref_date_parser</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.parsers.crossref_date_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to parse date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="paperfetcher.parsers.crossref_title_parser">
+<code class="sig-prename descclassname">paperfetcher.parsers.</code><code class="sig-name descname">crossref_title_parser</code><span class="sig-paren">(</span><em class="sig-param">title</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.parsers.crossref_title_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to parse title.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher.snowballsearch">
+<span id="paperfetcher-snowballsearch-module"></span><h2>paperfetcher.snowballsearch module<a class="headerlink" href="#module-paperfetcher.snowballsearch" title="Permalink to this headline">¶</a></h2>
+<p>Classes to fetch all journal articles cited by a set of journal articles by querying various APIs.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only the Crossref REST API is supported for now. Support for other APIs will be added soon.</p>
+</div>
+<dl class="class">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch">
+<em class="property">class </em><code class="sig-prename descclassname">paperfetcher.snowballsearch.</code><code class="sig-name descname">CrossrefSearch</code><span class="sig-paren">(</span><em class="sig-param">search_dois: list</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Retrieves the (DOIs of) all articles cited by a list of (DOIs of) articles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_dois</strong> (<em>list</em>) – List of DOIs (str) to fetch references of.</p>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.search_dois">
+<code class="sig-name descname">search_dois</code><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.search_dois" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of DOIs (str) to fetch references of.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.result_dois">
+<code class="sig-name descname">result_dois</code><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.result_dois" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set of DOIs which are cited by the DOIs in <cite>search_dois</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">search</span> <span class="o">=</span> <span class="n">snowballsearch</span><span class="o">.</span><span class="n">CrossrefSearch</span><span class="p">([</span><span class="s2">&quot;10.1021/acs.jpcb.1c02191&quot;</span><span class="p">,</span> <span class="s2">&quot;10.1073/pnas.2018234118&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">search</span><span class="p">)</span>
+<span class="go">140</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search</span><span class="o">.</span><span class="n">result_dois</span>
+<span class="go">{&#39;10.1021/jp972543+&#39;, &#39;10.1073/pnas.0708088105&#39;,  ... ,  &#39;10.1073/pnas.0705830104&#39;}</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.from_DOIDataset">
+<em class="property">classmethod </em><code class="sig-name descname">from_DOIDataset</code><span class="sig-paren">(</span><em class="sig-param">search_dataset: paperfetcher.datastructures.DOIDataset</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.from_DOIDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs a CrossrefSearch object from a DOIDataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>search_dataset</strong> (<a class="reference internal" href="#paperfetcher.datastructures.DOIDataset" title="paperfetcher.datastructures.DOIDataset"><em>DOIDataset</em></a>) – Dataset of DOIs to fetch references of.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CrossrefSearch</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.get_DOIDataset">
+<code class="sig-name descname">get_DOIDataset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.get_DOIDataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns search results as a DOIDataset object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DOIDataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads search data (query data and results) from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – Name of file (.pkl extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="paperfetcher.snowballsearch.CrossrefSearch.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">file</em><span class="sig-paren">)</span><a class="headerlink" href="#paperfetcher.snowballsearch.CrossrefSearch.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves search object (query and results) to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>str</em>) – Name of file (.pkl extension)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-paperfetcher">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-paperfetcher" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, Akash Pallath
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

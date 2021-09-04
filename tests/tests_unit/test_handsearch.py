@@ -1,8 +1,7 @@
+# @author Akash Pallath
+# This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 Unit test suite for paperfetcher.handsearch package.
-
-@author Akash Pallath
-This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 import logging
 import sys

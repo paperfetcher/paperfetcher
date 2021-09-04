@@ -1,7 +1,7 @@
-"""Definitions of all Exceptions raised by paperfetcher.
-
-@author Akash Pallath
-This code is licensed under the MIT license (see LICENSE.txt for details).
+# @author Akash Pallath
+# This code is licensed under the MIT license (see LICENSE.txt for details).
+"""
+Definitions of all Exceptions raised by paperfetcher.
 """
 
 

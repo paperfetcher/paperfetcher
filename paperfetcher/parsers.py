@@ -1,3 +1,5 @@
+# @author Akash Pallath
+# This code is licensed under the MIT license (see LICENSE.txt for details).
 """Functions to parse data returned from queries.
 
 New parsers can be added here.

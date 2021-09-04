@@ -1,8 +1,10 @@
+# @author Akash Pallath
+# This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 Client implementations to communicate with various APIs.
 
-@author Akash Pallath
-This code is licensed under the MIT license (see LICENSE.txt for details).
+Note:
+    Only the Crossref REST API is supported for now. Support for other APIs will be added soon.
 """
 from collections import OrderedDict
 import logging
@@ -18,11 +20,35 @@ logger = logging.getLogger(__name__)
 
 class Query:
     """
-    Base class for queries.
+    Base class for structuring and executing HTTP GET queries.
 
-    Parameters:
-        query_base: Base URL for query (such as api.xyz.com/get)
-        query_params: Dictionary of query parameters
+    Args:
+        base_url (str): Base URL for query (such as api.xyz.com/get).
+        query_params (dict): Dictionary of query parameters.
+        headers (dict): Dictionary of HTTP headers to pass along with the query.
+
+    Attributes:
+        query_base (str): Base URL for query (such as api.xyz.com/get).
+        query_params (dict): Dictionary of query parameters.
+        headers (dict): Dictionary of HTTP headers.
+        response (requests.Response): Response recieved on executing GET query.
+
+    Examples:
+        A simple Query to the Github REST API:
+
+        >>> query = Query("https://api.github.com")
+        >>> query()
+        >>> query.response
+        <Response [200]>
+
+        A Query to the Github REST API to fetch a list of all public repositories in the paperfetcher organization:
+
+        >>> query = Query("https://api.github.com/orgs/paperfetcher/repos",
+        ...               query_params={"type": "public"},
+        ...               headers={"Accept": "application/vnd.github.v3+json"})
+        >>> query()
+        >>> query.response
+        <Response [200]>
     """
     def __init__(self, base_url=None, query_params: dict = {}, headers: str = {}):
         self.query_base = base_url
@@ -46,7 +72,6 @@ class Query:
                             response.request.headers))
 
     def __call__(self):
-        """Runs query and stores response."""
         try:
             self.__response = requests.get(self.query_base, params=self.query_params,
                                            headers=self.headers, hooks={'response': self._log_request})
@@ -65,7 +90,47 @@ class Query:
 
 
 class CrossrefQuery(Query):
-    """Class for Crossref queries"""
+    """
+    Class for structuring and executing Crossref REST API queries.
+
+    Query components can be added to the base URL by passing an ordered dictionary to the components argument.
+    For example, the components dictionary `{"comp1-key": "comp1-value", "comp2": None}` changes
+    the query URL to `https://api.crossref.org/comp1-key/comp1-value/comp2/`.
+
+    Args:
+        components (collections.OrderedDict): Components to append to the base URL.
+        query_params (collections.OrderedDict): Ordered dictionary of query parameters.
+
+    Attributes:
+        components (collections.OrderedDict): Components to append to the base URL.
+        query_base (str): Base URL for query (https://api.crossref.org/...).
+        query_params (collections.OrderedDict): Dictionary of query parameters.
+        headers (dict): Dictionary of HTTP headers.
+        response (requests.Response): Response recieved on executing GET query to the Crossref API.
+
+    Examples:
+        Querying the metadata of a paper with a known DOI:
+
+        >>> query = CrossrefQuery(components={"works": "10.1021/acs.jpcb.1c02191"})
+        >>> query()
+        >>> query.response
+        <Response [200]>
+        >>> query.response.json()
+        {'status': 'ok', 'message-type': 'work', 'message-version': '1.0.0',
+        'message': {...}}
+
+        Query to fetch all articles from a journal with a known ISSN:
+
+        >>> components = OrderedDict([("journals", "1520-5126"),
+                                  ("works", None)])
+        >>> query = CrossrefQuery(components)
+        >>> query()
+        >>> query.response
+        <Response [200]>
+        >>> query.response.json()
+        {'status': 'ok', 'message-type': 'work', 'message-version': '1.0.0',
+        'message': {...}}
+    """
 
     # Which version of the Crossref API to use.
     __API_VERSION = 3
