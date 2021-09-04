@@ -3,7 +3,7 @@ from setuptools import setup
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open("VERSION", "r") as vh:
+with open("./VERSION", "r") as vh:
     version = vh.read()
 version = version.strip()
 
