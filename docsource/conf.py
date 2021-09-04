@@ -24,9 +24,12 @@ project = 'paperfetcher'
 copyright = '2021, Akash Pallath'
 author = 'Akash Pallath'
 
-# The full version, including alpha/beta/rc tags
-release = '0.1.0'
+with open("../VERSION", "r") as vh:
+    version = vh.read()
+version = version.strip()
 
+# The full version, including alpha/beta/rc tags
+release = version
 
 # -- General configuration ---------------------------------------------------
 
