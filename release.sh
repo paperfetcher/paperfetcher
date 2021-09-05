@@ -1,6 +1,9 @@
 #!/bin/bash
 # Call this script with argument for bumpverison.py
 
+# exit on first error
+set -e
+
 # Bump version
 python bumpversion.py $1
 

@@ -30,5 +30,6 @@ def main():
     with open("VERSION", "w") as vh:
         vh.write(new_version)
 
+
 if __name__ == "__main__":
     main()
