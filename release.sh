@@ -17,5 +17,8 @@ git commit -m "$1 version update"
 version=`cat VERSION`
 git tag -a v${version} -m "$1 version update"
 
+git push origin master
+git push origin --tags
+
 # Push distribution to pypi
-python -m twine upload --repository testpypi dist/*
+python -m twine upload --skip-existing dist/*
