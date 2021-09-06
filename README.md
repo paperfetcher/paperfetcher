@@ -59,3 +59,7 @@ pytest
 cd tests/tests_unit
 pytest
 ```
+
+## The Team
+
+Paperfetcher was designed and formulated by [Qiyang Zhang](https://qiyangzh.github.io) at the [Johns Hopkins University](https://www.jhu.edu) and was developed by [Akash Pallath](https://apallath.github.io) at the [University of Pennsylvania](https://www.upenn.edu).
