@@ -9,8 +9,10 @@ paperfetcher
 
 :Release: |release|
 
-Paperfetcher is a Python package to mine papers for systematic reviews. Paperfetcher
-works with Python 3, and has been tested for Python 3.7+.
+Paperfetcher is a Python package to mine papers for systematic reviews.
+In particular, paperfetcher automates the hand-search and snowball-search portions of the systematic review process.
+
+Paperfetcher works with Python 3.7+.
 
 You can either install paperfetcher using `pip`_, or alternatively, clone the source code from
 Github and install it from source.
@@ -60,6 +62,8 @@ Open a terminal window in the paperfetcher directory and run
 
 Running tests (optional)
 **************************
+
+You can run tests to make sure that paperfetcher is working correctly on your system.
 
 To run unit tests:
 
