@@ -21,7 +21,7 @@ View the example Jupyter notebooks below to get started with paperfetcher's Pyth
 1. [Crossref hand-search getting started guide](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_hand_search.ipynb)
 2. [Crossref snowball-search getting started guide](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_snowball_search.ipynb)
 
-Open the example Jupyter notebook apps below on your computer to get started with Google Colab's cloud interface:
+Open the example Jupyter notebook apps below on your computer to get started with paperfetcher's cloud interface:
 
 ([What is a Jupyter notebook? How do I use it?](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/))
 
