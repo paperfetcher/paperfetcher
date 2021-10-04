@@ -16,15 +16,17 @@ Paperfetcher works with Python 3.7+.
 
 You can either use paperfetcher as a Jupyter notebook app (no coding required), or through its easy-to-use Python interface (a little bit of coding required).
 
-See the example Jupyter notebooks below for paperfetcher's notebook apps:
-
-1. [Crossref hand-search app](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_hand_search_nbutils.ipynb)
-2. [Crossref snowball-search app](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_snowball_search_nbutils.ipynb)
-
-See the example Jupyter notebooks below to get started with paperfetcher's Python interface:
+View the example Jupyter notebooks below to get started with paperfetcher's Python interface:
 
 1. [Crossref hand-search getting started guide](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_hand_search.ipynb)
 2. [Crossref snowball-search getting started guide](https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_snowball_search.ipynb)
+
+Open the example Jupyter notebook apps below on your computer to get started with Google Colab's cloud interface:
+
+([What is a Jupyter notebook? How do I use it?](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/))
+
+1. [Crossref hand-search app](https://github.com/paperfetcher/paperfetcher/blob/master/examples/Crossref_hand_search_nbutils.ipynb)
+2. [Crossref snowball-search app](https://github.com/paperfetcher/paperfetcher/blob/master/examples/Crossref_snowball_search_nbutils.ipynb)
 
 Once you understand the workflow, read the [Module Documentation](https://paperfetcher.github.io/paperfetcher/paperfetcher.html) to
 learn more about how to use paperfetcher's various modules, classes and functions.
