@@ -35,7 +35,7 @@ learn more about how to use paperfetcher's various modules, classes and function
 
 ### Installation with pip
 
-1. [Install pip]
+1. [Install pip](https://pip.pypa.io/en/stable/installation/)
 2. Install paperfetcher using pip:
 ```sh
 pip install paperfetcher
