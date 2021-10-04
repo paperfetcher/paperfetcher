@@ -1,4 +1,3 @@
 recursive-include tests *.py
 include VERSION
-include docs
 recursive-include examples *.py *.ipynb

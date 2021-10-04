@@ -16,15 +16,43 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
+def test_Crossref_JACS_nokeywords():
+    search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
+                                       until_date="2020-04-01")
+    # fast/low memory search
+    search(select=True, select_fields=['DOI'])
+
+    # Check raw
+    for idx, result in enumerate(search.results):
+        logger.info("{}/{}".format(idx + 1, len(search)))
+        logger.info(result)
+    print(len(search))
+    assert(len(search) == 772)
+
+
+def test_Crossref_JACS_emptykeywords():
+    search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
+                                       until_date="2020-04-01")
+    # fast/low memory search
+    search(select=True, select_fields=['DOI'])
+
+    # Check raw
+    for idx, result in enumerate(search.results):
+        logger.info("{}/{}".format(idx + 1, len(search)))
+        logger.info(result)
+    print(len(search))
+    assert(len(search) == 772)
+
+
 def test_Crossref_JACS_hydration_DOIDataset():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=["hydration"], from_date="2018-01-01",
                                        until_date="2020-01-01")
     search()
 
     # Check raw
-    for idx, batch in enumerate(search.results):
+    for idx, result in enumerate(search.results):
         logger.info("{}/{}".format(idx + 1, len(search)))
-        logger.info(batch)
+        logger.info(result)
     assert(len(search) == 13)
 
     # Check DOIDataset
@@ -58,9 +86,9 @@ def test_Crossref_JACS_hydration_CitationsDataset():
     search(select=True, select_fields=['DOI', 'URL', 'title', 'author', 'issued'])
 
     # Check raw
-    for idx, batch in enumerate(search.results):
+    for idx, result in enumerate(search.results):
         logger.info("{}/{}".format(idx + 1, len(search)))
-        logger.info(batch)
+        logger.info(result)
     assert(len(search) == 13)
 
     # Check DOIDataset
@@ -83,13 +111,10 @@ def test_Crossref_JACS_hydration_CitationsDataset():
         os.makedirs("./tmp/")
 
     # Check conversion to text
-    df = ds.save_txt("./tmp/JACS_hydration.txt")
-    print(df)
+    ds.save_txt("./tmp/JACS_hydration.txt")
 
     # Check conversion to csv
-    df = ds.save_csv("./tmp/JACS_hydration.csv")
-    print(df)
+    ds.save_csv("./tmp/JACS_hydration.csv")
 
     # Check conversion to xlsx
-    df = ds.save_excel("./tmp/JACS_hydration.xlsx")
-    print(df)
+    ds.save_excel("./tmp/JACS_hydration.xlsx")

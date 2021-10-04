@@ -44,7 +44,7 @@ or, if you have pip installed
 pip install .
 ```
 
-## Running tests (optional)
+## Running tests (if installed from source)
 
 You can run tests to make sure that paperfetcher is working correctly on your system.
 

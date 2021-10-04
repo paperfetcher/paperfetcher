@@ -60,7 +60,7 @@ Open a terminal window in the paperfetcher directory and run
   python setup.py install
 
 
-Running tests (optional)
+Running tests (if installed from source)
 **************************
 
 You can run tests to make sure that paperfetcher is working correctly on your system.
@@ -91,6 +91,17 @@ See the example Jupyter notebooks below to get started:
 
 Once you understand the workflow, read the Module Documentation below to
 learn more about how to use paperfetcher's various modules, classes and functions.
+
+
+The Team
+******************
+
+Paperfetcher was designed and formulated by `Qiyang Zhang`_ at the `Johns Hopkins University`_ and was developed by `Akash Pallath`_ at the `University of Pennsylvania`_
+
+.. _`Qiyang Zhang`: https://qiyangzh.github.io
+.. _`Johns Hopkins University`: https://www.jhu.edu
+.. _`Akash Pallath`: https://apallath.github.io
+.. _`University of Pennsylvania`: https://www.upenn.edu
 
 ========================================
 

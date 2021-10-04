@@ -10,6 +10,7 @@ Note:
 from collections import OrderedDict
 import pickle
 import logging
+import warnings
 
 from tqdm import tqdm
 
@@ -31,18 +32,24 @@ class CrossrefSearch:
     toggle the display of a search progress bar, `select` (True/False; default=False), and
     `select_fields` (list) to query only a subset of metadata for each journal
     article.
+
     If select is False, a full (memory and time intensive) search is performed,
     fetching all metadata associated with each journal work.
+
     If select is True, a subset of fields to fetch can be specified using the
     select_fields parameter. Check the Crossref REST API doc
     for details on which field names are permissible.
 
+    Note:
+        Performing a search with no keywords and select=False can be very time- and memory- intensive.
+        The search object will complain when such a search is performed.
+
     Args:
         ISSN (str): Journal (web) ISSN.
         type (str): Type of works to fetch (default="journal-article").
-        keyword_list (list): List of keywords (str) to query with.
-        from_date (str): Fetch articles published from (and after) this date (format="YYYY-MM-DD").
-        until_date (str): Fetch articles published until this date (format="YYYY-MM-DD").
+        keyword_list (list): List of keywords (str) to query with (default=None).
+        from_date (str): Fetch articles published from (and after) this date (format="YYYY-MM-DD", default=None).
+        until_date (str): Fetch articles published until this date (format="YYYY-MM-DD", default=None).
         batch_size (int): Number of works to fetch in each batch (default=20).
         sort_order (str): Order in which to sort works by date ("asc" or "desc", default="desc").
 
@@ -194,14 +201,32 @@ class CrossrefSearch:
 
     def __call__(self, display_progress_bar=True, select=False, select_fields=[]):
         query_params = OrderedDict()
-        query_params['query'] = "+".join(self.keyword_list)
-        query_params['filter'] = "from-pub-date:{},until-pub-date:{}".format(
-                                 self.from_date, self.until_date)
+        if self.keyword_list is None:
+            if not select:
+                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider usetting select=True and using select_fields to fetch only a subset of fields.")
+        elif len(self.keyword_list) == 0:
+            if not select:
+                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider setting select=True and using select_fields to fetch only a subset of fields.")
+        else:
+            query_params['query'] = "+".join(self.keyword_list)
+
+        if self.from_date is not None and self.until_date is not None:
+            query_params['filter'] = "from-pub-date:{},until-pub-date:{}".format(
+                                     self.from_date, self.until_date)
+        elif self.from_date is not None:
+            query_params['filter'] = "from-pub-date:{}".format(
+                                     self.from_date)
+        elif self.until_date is not None:
+            query_params['filter'] = "until-pub-date:{}".format(
+                                     self.until_date)
+
         query_params['facet'] = "type-name:{}".format(self.type)
         query_params['sort'] = "published"
         query_params['order'] = self.sort_order
 
         if(select):
+            if(len(select_fields) == 0):
+                raise SearchError("select_fields cannot be empty when select is True.")
             query_params['select'] = ",".join(select_fields)
 
         total_items = self._fetch_count(self.ISSN, query_params)
