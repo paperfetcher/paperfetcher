@@ -60,7 +60,7 @@ Open a terminal window in the paperfetcher directory and run
   python setup.py install
 
 
-Running tests (optional)
+Running tests (if installed from source)
 **************************
 
 You can run tests to make sure that paperfetcher is working correctly on your system.
