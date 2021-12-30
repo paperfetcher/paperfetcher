@@ -125,9 +125,20 @@ class DOIDataset(Dataset):
     def __init__(self, items: list = []):
         super().__init__(items)
 
+    def extend_dataset(self, ds: 'DOIDataset'):
+        """Appends all items from DOIDataset ds to the end of the current dataset."""
+        self.extend(ds._items)
+
     def to_df(self):
         """Converts dataset to DataFrame."""
         return pd.DataFrame(self._items, columns=['DOI'])
+
+    def to_txt_string(self):
+        """Returns a string which can be written to .txt file"""
+        txt = ""
+        for doi in self._items:
+            txt = txt + doi + "\n"
+        return txt
 
     def save_txt(self, file):
         """Saves dataset to .txt file."""
@@ -139,8 +150,7 @@ class DOIDataset(Dataset):
             file_ctx = open(file, "w")
 
         with file_ctx as f:
-            for doi in self._items:
-                f.write(doi + "\n")
+            f.write(self.to_txt_string())
 
     def save_csv(self, file):
         """Saves dataset to .csv file."""
@@ -207,7 +217,7 @@ class CitationsDataset(Dataset):
         >>> ds.save_excel("cits.xlsx")
 
         To create a DOIDataset object from files on disk:
-        
+
         >>> ds = CitationsDataset.from_txt("cits.txt")
         >>> ds = CitationsDataset.from_csv("cits.csv")
         >>> ds = CitationsDataset.from_excel("cits.xlsx")
