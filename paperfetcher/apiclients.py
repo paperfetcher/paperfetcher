@@ -2,9 +2,6 @@
 # This code is licensed under the MIT license (see LICENSE.txt for details).
 """
 Client implementations to communicate with various APIs.
-
-Note:
-    Only the Crossref REST API is supported for now. Support for other APIs will be added soon.
 """
 from collections import OrderedDict
 import logging
@@ -162,3 +159,7 @@ class CrossrefQuery(Query):
 
         # Call
         super().__call__()
+
+
+class COCIQuery(Query):
+    pass

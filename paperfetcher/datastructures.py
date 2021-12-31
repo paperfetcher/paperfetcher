@@ -281,3 +281,7 @@ class CitationsDataset(Dataset):
             file = file + '.xlsx'
         df = pd.DataFrame(self._items, columns=self.field_names)
         df.to_excel(file)
+
+
+class RISDataset(Dataset):
+    pass

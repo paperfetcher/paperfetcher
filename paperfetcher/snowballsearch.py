@@ -1,10 +1,11 @@
 # @author Akash Pallath
 # This code is licensed under the MIT license (see LICENSE.txt for details).
 """
-Classes to fetch all journal articles cited by a set of journal articles by querying various APIs.
+Classes to fetch all journal articles in the references of (i.e. backward search)
+or citing (i.e. forward search) a set of journal articles.
 
-Note:
-    Only the Crossref REST API is supported for now. Support for other APIs will be added soon.
+For backward search, you can use either Crossref (recommended) or COCI.
+For forward search, you can only use COCI at the moment.
 """
 from collections import OrderedDict
 import logging
@@ -21,19 +22,20 @@ from paperfetcher.exceptions import SearchError
 logger = logging.getLogger(__name__)
 
 
-class CrossrefSearch:
+class CrossrefBackwardReferenceSearch:
     """
-    Retrieves the (DOIs of) all articles cited by a list of (DOIs of) articles.
+    Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
+    by using the Crossref REST API.
 
     Args:
         search_dois (list): List of DOIs (str) to fetch references of.
 
     Attributes:
         search_dois (list): List of DOIs (str) to fetch references of.
-        result_dois (set): Set of DOIs which are cited by the DOIs in `search_dois`.
+        result_dois (set): Set of DOIs which are referenced by the DOIs in `search_dois`.
 
     Example:
-        >>> search = snowballsearch.CrossrefSearch(["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"])
+        >>> search = snowballsearch.CrossrefBackwardReferenceSearch(["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"])
         >>> search()
         >>> len(search)
         140
@@ -176,3 +178,19 @@ class CrossrefSearch:
             DOIDataset
         """
         return DOIDataset(list(self.result_dois))
+
+
+class COCIBackwardReferenceSearch:
+    """
+    Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
+    by using the COCI REST API.
+    """
+    pass
+
+
+class COCIForwardCitationSearch:
+    """
+    Retrieves the (DOIs of) all articles citing of a list of (DOIs of) articles
+    by using the COCI REST API.
+    """
+    pass

@@ -1,10 +1,8 @@
 # @author Akash Pallath
 # This code is licensed under the MIT license (see LICENSE.txt for details).
 """
-Classes to fetch all journal works (articles) matching a set of keywords and within a given date range by querying various APIs.
-
-Note:
-    Only the Crossref REST API is supported for now. Support for other APIs will be added soon.
+Classes to fetch all journal works (articles) matching a set of keywords and
+within a given date range by querying various APIs.
 """
 
 from collections import OrderedDict
@@ -203,7 +201,7 @@ class CrossrefSearch:
         query_params = OrderedDict()
         if self.keyword_list is None:
             if not select:
-                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider usetting select=True and using select_fields to fetch only a subset of fields.")
+                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider setting select=True and using select_fields to fetch only a subset of fields.")
         elif len(self.keyword_list) == 0:
             if not select:
                 warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider setting select=True and using select_fields to fetch only a subset of fields.")
@@ -303,3 +301,6 @@ class CrossrefSearch:
             Citationlist.append(self._extract_fields(work, field_list, field_parsers_list))
         logger.debug(Citationlist)
         return CitationsDataset(field_list, Citationlist)
+
+    def get_RISDataset(self, doi_list=[], extra_fields=[], extra_fields_parsers=[], extra_fields_ris_tags=[]):
+        pass
