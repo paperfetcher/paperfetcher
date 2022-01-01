@@ -7,9 +7,10 @@ import logging
 import os
 import sys
 
+from pathlib import Path
 import pytest
 
-from paperfetcher.datastructures import DOIDataset, CitationsDataset
+from paperfetcher.datastructures import DOIDataset, CitationsDataset, RISDataset
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +40,18 @@ def citds():
             ["10.xxyy/0.0.0.000004", "https://dx.doi.org/10.xxyy/0.0.0.000004", "Characterizing the role of E on F", "P and Q", "2020-05-20"],
             ["10.xxyy/0.0.0.000005", "https://dx.doi.org/10.xxyy/0.0.0.000005", "The G effect", "Q and P", "2020-06-20"]]
     return CitationsDataset(field_names, data)
+
+
+@pytest.fixture
+def ris_entry():
+    entry = "TY  - JOUR\nDO  - 10.1073/pnas.2018234118\nUR  - http://dx.doi.org/10.1073/pnas.2018234118\nTI  - Identifying hydrophobic protein patches to inform protein interaction interfaces\nT2  - Proceedings of the National Academy of Sciences\nAU  - Rego, Nicholas B.\nAU  - Xi, Erte\nAU  - Patel, Amish J.\nPY  - 2021\nDA  - 2021/02/01\nPB  - Proceedings of the National Academy of Sciences\nSP  - e2018234118\nIS  - 6\nVL  - 118\nSN  - 0027-8424\nSN  - 1091-6490\nER  -"
+    return entry
+
+
+@pytest.fixture
+def ris_file():
+    path = Path(__file__).parent / "input_data/ris1.ris"
+    return path
 
 
 def test_DOIDataset_to_df(doids):
@@ -88,3 +101,16 @@ def test_CitationsDataset_save_xlsx(citds):
     if not os.path.exists("./tmp/"):
         os.makedirs("./tmp/")
     citds.save_excel("./tmp/citunit.xlsx")
+
+
+"""RISDataset tests"""
+
+
+def test_constructors(ris_entry, ris_file):
+    # Test constructor to load dataset from ris-formatted string
+    ds1 = RISDataset.from_ris_string(ris_entry)
+    print(ds1)
+    assert(len(ds1) == 1)
+    ds2 = RISDataset.from_ris(ris_file)
+    print(ds2)
+    assert(len(ds2) == 1)

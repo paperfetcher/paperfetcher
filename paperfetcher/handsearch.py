@@ -302,5 +302,26 @@ class CrossrefSearch:
         logger.debug(Citationlist)
         return CitationsDataset(field_list, Citationlist)
 
-    def get_RISDataset(self, doi_list=[], extra_fields=[], extra_fields_parsers=[], extra_fields_ris_tags=[]):
-        pass
+    def get_RISDataset(self, extra_field_list=[], extra_field_parsers_list=[], extra_field_ris_tags=[]):
+        """
+        Extracts DOIs from search results and fetches RIS data for each DOI using
+        Crossref's content negotiation service.
+
+        Extra fields in the search results that are not automatically populated
+        by Crossref's content negotation service can be mapped to the RIS format
+        using the `extra_fields`, `extra_fields_parsers`, and `extra_fields_ris_tags`
+        arguments.
+
+        Args:
+            pass
+        """
+        RISlist = []
+        for work in self.results:
+            # Build content negotation query
+            # Execute query
+            ris_entry = ""
+            # Convery to rispy-format dictionary
+            rispy_dict = []
+            # Get extra fields
+            parsed_field_list = self._extract_fields(work, extra_field_list, extra_field_parsers_list)
+            # TODO

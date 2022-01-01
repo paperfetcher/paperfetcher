@@ -8,6 +8,7 @@ import csv
 import logging
 
 import pandas as pd
+import rispy
 
 from paperfetcher.exceptions import DatasetError
 
@@ -19,8 +20,8 @@ class Dataset:
     """
     Abstract interface that defines functions for child Dataset classes to implement.
 
-    Datasets are designed to store tabular data (as input to or output from paperfetcher searches), export
-    tabular data to pandas DataFrames, and load/save data to disk using common data formats (txt, csv, xlsx).
+    Datasets are designed to store [usually tabular] data (as input to or output from paperfetcher searches), export
+    data to pandas DataFrames, and load/save data to disk using common data formats (txt, csv, xlsx).
 
     Args:
         items (iterable): Items to store in dataset (default=[]).
@@ -46,9 +47,12 @@ class Dataset:
         # Child class must implement this.
         raise NotImplementedError()
 
-    # Property
+    # Properties
     def __len__(self):
         return len(self._items)
+
+    def __repr__(self):
+        return self.__class__.__name__ + " with {} items: ".format(len(self)) + repr(self._items)
 
     def append(self, item):
         """Adds an item to the dataset."""
@@ -114,13 +118,6 @@ class DOIDataset(Dataset):
         >>> ds.save_txt("dois.txt")
         >>> ds.save_csv("dois.csv")
         >>> ds.save_excel("dois.xlsx")
-
-        To create a DOIDataset object from files on disk:
-
-        >>> ds = DOIDataset.from_txt("dois.txt")
-        >>> ds = DOIDataset.from_csv("dois.csv")
-        >>> ds = DOIDataset.from_excel("dois.xlsx")
-
     """
     def __init__(self, items: list = []):
         super().__init__(items)
@@ -215,12 +212,6 @@ class CitationsDataset(Dataset):
         >>> ds.save_txt("cits.txt")
         >>> ds.save_csv("cits.csv")
         >>> ds.save_excel("cits.xlsx")
-
-        To create a DOIDataset object from files on disk:
-
-        >>> ds = CitationsDataset.from_txt("cits.txt")
-        >>> ds = CitationsDataset.from_csv("cits.csv")
-        >>> ds = CitationsDataset.from_excel("cits.xlsx")
     """
     def __init__(self, field_names: tuple, items: list = []):
         super().__init__(items)
@@ -284,4 +275,53 @@ class CitationsDataset(Dataset):
 
 
 class RISDataset(Dataset):
-    pass
+    """
+    Stores a dataset of RIS items. RIS items are rispy-readable dictionaries.
+
+    An RISDataset can be created from an RIS-formatted string, or from an RIS file.
+    An RISDataset can be written to an RIS-formatted string, or to an RIS file.
+    Individual item dictionaries in an RISDataset can be modified to add new tags or change
+    the values of existing tags.
+
+    Args:
+        items (list): List of citations to store (default=[]). Each citation should be a rispy-readable dictionary.
+
+    Examples:
+        To create an RISDataset from a list of rispy-readable dictionaries (see rispy doc on GitHub for details):
+
+        >>> dict_list = [{'journal_name': ...}, {'journal_name: ...'}, ...]
+        >>> ds = RISDataset(dict_list)
+
+        To load an RISDataset from an RIS-formatted string:
+        >>> ds = RISDataset.from_ris_string(ris_string)
+
+        To load an RISDataset from an RIS file:
+        >>> ds = RISDataset.from_ris(ris_file)
+    """
+    def __init__(self, items: list = []):
+        super().__init__(items)
+
+    @classmethod
+    def from_ris_string(cls, ris_string):
+        """Loads dataset from RIS-formatted string."""
+        items = rispy.loads(ris_string)
+        return cls(items)
+
+    @classmethod
+    def from_ris(cls, file):
+        """Loads dataset from RIS file."""
+        with open(file, 'r') as f:
+            items = rispy.load(f)
+        return cls(items)
+
+    def extend_dataset(self, ds: 'RISDataset'):
+        """Appends all items from RISDataset ds to the end of the current dataset."""
+        self.extend(ds._items)
+
+    def to_ris_string(self):
+        """Returns a string which can be written to .ris file"""
+        return rispy.dumps(self._items)
+
+    def save_ris(self, file):
+        """Saves dataset to .ris file."""
+        rispy.dump(self._items)
