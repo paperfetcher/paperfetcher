@@ -9,6 +9,7 @@ import logging
 
 import pandas as pd
 import rispy
+from rispy.config import LIST_TYPE_TAGS, TAG_KEY_MAPPING
 
 from paperfetcher.exceptions import DatasetError
 
@@ -274,6 +275,14 @@ class CitationsDataset(Dataset):
         df.to_excel(file)
 
 
+# rispy modification
+class HeadlessRISWriter(rispy.writer.BaseWriter):
+    START_TAG = "TY"
+    PATTERN = "{tag}  - {value}"
+    DEFAULT_MAPPING = TAG_KEY_MAPPING
+    DEFAULT_LIST_TAGS = LIST_TYPE_TAGS
+
+
 class RISDataset(Dataset):
     """
     Stores a dataset of RIS items. RIS items are rispy-readable dictionaries.
@@ -318,10 +327,25 @@ class RISDataset(Dataset):
         """Appends all items from RISDataset ds to the end of the current dataset."""
         self.extend(ds._items)
 
-    def to_ris_string(self):
-        """Returns a string which can be written to .ris file"""
-        return rispy.dumps(self._items)
+    def to_ris_string(self, headers=False):
+        """Returns a string which can be written to .ris file.
 
-    def save_ris(self, file):
-        """Saves dataset to .ris file."""
-        rispy.dump(self._items)
+        Args:
+            headers (bool, default=False): If set to true, writes reference number before each RIS entry."""
+        if headers:
+            return rispy.dumps(self._items)
+        else:
+            return rispy.dumps(self._items, implementation=HeadlessRISWriter)
+
+    def save_ris(self, filename, headers=False):
+        """Saves dataset to .ris file.
+
+        Args:
+            filename: Path to file to write RIS data to.
+            headers (bool, default=False): If set to true, writes reference number before each RIS entry."""
+        if headers:
+            with open(filename, 'r') as f:
+                rispy.dump(self._items, f)
+        else:
+            with open(filename, 'r') as f:
+                rispy.dump(self._items, f, implementation=HeadlessRISWriter)

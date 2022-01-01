@@ -3,19 +3,12 @@
 """
 Unit test suite for paperfetcher.datastructures package.
 """
-import logging
 import os
-import sys
 
 from pathlib import Path
 import pytest
 
 from paperfetcher.datastructures import DOIDataset, CitationsDataset, RISDataset
-
-logger = logging.getLogger(__name__)
-
-# Set logging default to DEBUG
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 """DOIDataset tests"""
@@ -107,10 +100,20 @@ def test_CitationsDataset_save_xlsx(citds):
 
 
 def test_constructors(ris_entry, ris_file):
-    # Test constructor to load dataset from ris-formatted string
+    # Test constructor to load dataset from RIS-formatted string
     ds1 = RISDataset.from_ris_string(ris_entry)
     print(ds1)
     assert(len(ds1) == 1)
+
+    # Test constructor to load dataset from RIS file
     ds2 = RISDataset.from_ris(ris_file)
     print(ds2)
-    assert(len(ds2) == 1)
+    assert(len(ds2) == 2)
+
+
+def test_ris_output(ris_entry):
+    # Test RIS reconstruction
+    ds = RISDataset.from_ris_string(ris_entry)
+    ris_str = RISDataset.to_ris_string(ds)
+    print(ris_entry)
+    print(ris_str)
