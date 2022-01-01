@@ -18,7 +18,7 @@ def test_Crossref_JPCB():
     input_DOIs = ["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"]
     test_output_DOI_members = ["10.1021/acs.jpcb.8b11423"]
 
-    search = snowballsearch.CrossrefSearch(input_DOIs)
+    search = snowballsearch.CrossrefBackwardReferenceSearch(input_DOIs)
     search()
     print(len(search))
     print(search.result_dois)
