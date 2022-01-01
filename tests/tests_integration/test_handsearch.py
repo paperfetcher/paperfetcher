@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
-def test_Crossref_JACS_nokeywords():
+def notest_Crossref_JACS_nokeywords():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
                                        until_date="2020-04-01")
     # fast/low memory search
@@ -30,7 +30,7 @@ def test_Crossref_JACS_nokeywords():
     assert(len(search) == 772)
 
 
-def test_Crossref_JACS_emptykeywords():
+def notest_Crossref_JACS_emptykeywords():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
                                        until_date="2020-04-01")
     # fast/low memory search
@@ -44,7 +44,7 @@ def test_Crossref_JACS_emptykeywords():
     assert(len(search) == 772)
 
 
-def test_Crossref_JACS_hydration_DOIDataset():
+def notest_Crossref_JACS_hydration_DOIDataset():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=["hydration"], from_date="2018-01-01",
                                        until_date="2020-01-01")
     search()
@@ -118,3 +118,31 @@ def test_Crossref_JACS_hydration_CitationsDataset():
 
     # Check conversion to xlsx
     ds.save_excel("./tmp/JACS_hydration.xlsx")
+
+
+def test_Crossref_PNAS_hydrophobic_RISDataset():
+    search = handsearch.CrossrefSearch(ISSN="1091-6490", keyword_list=["hydrophobic"], from_date="2020-01-01",
+                                       until_date="2021-05-01")
+    search(select=True, select_fields=["DOI", "abstract"])
+
+    # Check raw
+    for idx, result in enumerate(search.results):
+        logger.info("{}/{}".format(idx + 1, len(search)))
+        logger.info(result)
+    assert(len(search) == 7)
+
+    # RISDataset without abstract
+    ds_noabs = search.get_RISDataset()
+    print(ds_noabs.to_ris_string())
+
+    # RISDataset with abstract
+    ds_abs = search.get_RISDataset(extra_field_list=["abstract"],
+                                   extra_field_parser_list=[None],
+                                   extra_field_rispy_tags=["notes_abstract"])
+    print(ds_abs.to_ris_string())
+
+    if not os.path.exists("./tmp/"):
+        os.makedirs("./tmp/")
+
+    ds_noabs.save_ris("./tmp/PNAS_hydrophobic.ris")
+    ds_abs.save_ris("./tmp/PNAS_hydrophobic_withabstract.ris")
