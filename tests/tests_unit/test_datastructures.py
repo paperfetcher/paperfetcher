@@ -37,7 +37,7 @@ def citds():
 
 @pytest.fixture
 def ris_entry():
-    entry = "TY  - JOUR\nDO  - 10.1073/pnas.2018234118\nUR  - http://dx.doi.org/10.1073/pnas.2018234118\nTI  - Identifying hydrophobic protein patches to inform protein interaction interfaces\nT2  - Proceedings of the National Academy of Sciences\nAU  - Rego, Nicholas B.\nAU  - Xi, Erte\nAU  - Patel, Amish J.\nPY  - 2021\nDA  - 2021/02/01\nPB  - Proceedings of the National Academy of Sciences\nSP  - e2018234118\nIS  - 6\nVL  - 118\nSN  - 0027-8424\nSN  - 1091-6490\nER  -"
+    entry = "TY  - JOUR\nDO  - 10.1073/pnas.2018234118\nUR  - http://dx.doi.org/10.1073/pnas.2018234118\nTI  - Identifying hydrophobic protein patches to inform protein interaction interfaces\nT2  - Proceedings of the National Academy of Sciences\nAU  - Rego, Nicholas B.\nAU  - Xi, Erte\nAU  - Patel, Amish J.\nPY  - 2021\nDA  - 2021/02/01\nPB  - Proceedings of the National Academy of Sciences\nSP  - e2018234118\nIS  - 6\nVL  - 118\nSN  - 1091-6490\nER  -"
     return entry
 
 
@@ -99,7 +99,7 @@ def test_CitationsDataset_save_xlsx(citds):
 """RISDataset tests"""
 
 
-def test_constructors(ris_entry, ris_file):
+def test_RISDataset_constructors(ris_entry, ris_file):
     # Test constructor to load dataset from RIS-formatted string
     ds1 = RISDataset.from_ris_string(ris_entry)
     print(ds1)
@@ -111,9 +111,18 @@ def test_constructors(ris_entry, ris_file):
     assert(len(ds2) == 2)
 
 
-def test_ris_output(ris_entry):
+def test_RISDataset_ris_output(ris_entry):
     # Test RIS reconstruction
     ds = RISDataset.from_ris_string(ris_entry)
     ris_str = RISDataset.to_ris_string(ds)
     print(ris_entry)
+    print("---")
     print(ris_str)
+    assert(ris_entry.strip() == ris_str.strip())
+
+
+def test_RISDataset_save_ris(ris_entry):
+    if not os.path.exists("./tmp/"):
+        os.makedirs("./tmp/")
+    ds = RISDataset.from_ris_string(ris_entry)
+    ds.save_ris("./tmp/risunit.ris")
