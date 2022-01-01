@@ -162,4 +162,5 @@ class CrossrefQuery(Query):
 
 
 class COCIQuery(Query):
-    pass
+    def __init__(self, base_url=None, query_params: dict = {}, headers: str = {}):
+        raise NotImplementedError()

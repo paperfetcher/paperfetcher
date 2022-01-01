@@ -10,10 +10,11 @@ import pickle
 import logging
 import warnings
 
+import rispy
 from tqdm import tqdm
 
 from paperfetcher.apiclients import CrossrefQuery
-from paperfetcher.datastructures import DOIDataset, CitationsDataset
+from paperfetcher.datastructures import DOIDataset, CitationsDataset, RISDataset
 from paperfetcher.exceptions import SearchError
 
 # Logging
@@ -197,6 +198,19 @@ class CrossrefSearch:
                 output_item.append("")
         return output_item
 
+    @classmethod
+    def _negotiate_ris(cls, doi):
+        # Build content negotation query
+        components = OrderedDict([("works", doi),
+                                  ("transform", "application/x-research-info-systems")])
+        query = CrossrefQuery(components)
+
+        # Execute query
+        query()
+
+        # rispy conversion
+        return rispy.loads(query.response.text)
+
     def __call__(self, display_progress_bar=True, select=False, select_fields=[]):
         query_params = OrderedDict()
         if self.keyword_list is None:
@@ -302,26 +316,32 @@ class CrossrefSearch:
         logger.debug(Citationlist)
         return CitationsDataset(field_list, Citationlist)
 
-    def get_RISDataset(self, extra_field_list=[], extra_field_parsers_list=[], extra_field_ris_tags=[]):
+    def get_RISDataset(self, extra_field_list=[], extra_field_parsers_list=[], extra_field_rispy_tags=[]):
         """
         Extracts DOIs from search results and fetches RIS data for each DOI using
         Crossref's content negotiation service.
 
         Extra fields in the search results that are not automatically populated
-        by Crossref's content negotation service can be mapped to the RIS format
-        using the `extra_fields`, `extra_fields_parsers`, and `extra_fields_ris_tags`
+        by Crossref's content negotation service can be mapped to the RIS format (through rispy's mapping)
+        using the `extra_fields`, `extra_fields_parsers`, and `extra_fields_rispy_tags`
         arguments.
 
         Args:
             pass
         """
-        RISlist = []
+        RIS_dicts = []
+
         for work in self.results:
-            # Build content negotation query
-            # Execute query
-            ris_entry = ""
-            # Convery to rispy-format dictionary
-            rispy_dict = []
-            # Get extra fields
-            parsed_field_list = self._extract_fields(work, extra_field_list, extra_field_parsers_list)
-            # TODO
+            # Extract DOI and extra fields
+            doi_plus = self._extract_fields(work, ['DOI'] + extra_field_list, [None] + extra_field_parsers_list)
+            ris_ref = self._negotiate_ris(doi_plus[0])[0]
+
+            # Add in extra fields
+            for fieldidx, field in enumerate(extra_field_list):
+                tag = extra_field_rispy_tags[fieldidx]
+                ris_ref[tag] = doi_plus[1 + fieldidx]
+
+            # Add to list
+            RIS_dicts.append(ris_ref)
+
+        return RISDataset(RIS_dicts)

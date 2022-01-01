@@ -185,7 +185,8 @@ class COCIBackwardReferenceSearch:
     Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
     by using the COCI REST API.
     """
-    pass
+    def __init__(self):
+        raise NotImplementedError()
 
 
 class COCIForwardCitationSearch:
@@ -193,4 +194,5 @@ class COCIForwardCitationSearch:
     Retrieves the (DOIs of) all articles citing of a list of (DOIs of) articles
     by using the COCI REST API.
     """
-    pass
+    def __init__(self):
+        raise NotImplementedError()

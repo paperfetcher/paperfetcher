@@ -275,7 +275,7 @@ class CitationsDataset(Dataset):
         df.to_excel(file)
 
 
-# rispy modification
+# rispy modification to remove header containing reference number from RIS output
 class HeadlessRISWriter(rispy.writer.BaseWriter):
     START_TAG = "TY"
     PATTERN = "{tag}  - {value}"
@@ -344,8 +344,8 @@ class RISDataset(Dataset):
             filename: Path to file to write RIS data to.
             headers (bool, default=False): If set to true, writes reference number before each RIS entry."""
         if headers:
-            with open(filename, 'r') as f:
+            with open(filename, 'w') as f:
                 rispy.dump(self._items, f)
         else:
-            with open(filename, 'r') as f:
+            with open(filename, 'w') as f:
                 rispy.dump(self._items, f, implementation=HeadlessRISWriter)
