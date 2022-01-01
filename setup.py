@@ -19,6 +19,7 @@ setup(name='paperfetcher',
       packages=['paperfetcher'],
       install_requires=[
           'requests',
+          'rispy',
           'tqdm',
           'pandas',
           'openpyxl',
