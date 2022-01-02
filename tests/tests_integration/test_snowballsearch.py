@@ -5,14 +5,13 @@ Integration tests for paperfetcher.snowballsearch package.
 """
 import logging
 import os
-import sys
 
 from paperfetcher import snowballsearch
 
 logger = logging.getLogger(__name__)
 
 
-def notest_CrossrefBackward():
+def test_CrossrefBackward():
     input_DOIs = ["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"]
     test_output_DOI_members = ["10.1021/acs.jpcb.8b11423"]
 
@@ -63,7 +62,7 @@ def test_COCIBackward():
     ris_ds.save_ris("./tmp/snowball_COCI_back.ris")
 
 
-def notest_COCIForward():
+def test_COCIForward():
     input_DOIs = ["10.1021/acs.jpcb.8b11423", "10.1073/pnas.2018234118"]
     test_output_DOI_members = ["10.1021/acs.jpcb.1c02191"]
 

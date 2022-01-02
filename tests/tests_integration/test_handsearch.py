@@ -5,7 +5,6 @@ Integration tests for paperfetcher.handsearch package.
 """
 import logging
 import os
-import sys
 
 from paperfetcher import handsearch
 from paperfetcher import parsers

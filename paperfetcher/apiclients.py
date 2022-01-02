@@ -191,6 +191,7 @@ class COCIQuery(Query):
             else:
                 self.query_base += "%s/" % k
 
+        # COCI-specific error handling
         if self.query_base[-1] == "/":
             self.query_base = self.query_base[:-1]
 

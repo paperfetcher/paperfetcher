@@ -4,7 +4,7 @@
 Classes to fetch all journal articles in the references of (i.e. backward search)
 or citing (i.e. forward search) a set of journal articles.
 
-For backward search, you can use either Crossref (recommended) or COCI.
+For backward search, you can use either Crossref or COCI (should be equivalent).
 For forward search, you can only use COCI at the moment.
 """
 from collections import OrderedDict
@@ -234,8 +234,6 @@ class COCIBackwardReferenceSearch:
         query()
 
         references = query.response.json()
-
-        print(query.response)
 
         reference_dois = []
 
