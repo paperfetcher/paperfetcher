@@ -8,7 +8,7 @@ import logging
 import requests
 import sys
 
-from paperfetcher import _useragent, _crossref_plus, _crossref_plus_auth_token
+from paperfetcher import GlobalConfig
 from paperfetcher.exceptions import QueryError
 
 # Logging
@@ -134,11 +134,11 @@ class CrossrefQuery(Query):
 
     def __init__(self, components=OrderedDict(), query_params=OrderedDict()):
         # Crossref API etiquette
-        headers = {'User-Agent': _useragent}
+        headers = {'User-Agent': GlobalConfig.crossref_useragent}
 
         # Option to use Crossref Plus
-        if _crossref_plus:
-            headers["Crossref-Plus-API-Token"] = _crossref_plus_auth_token
+        if GlobalConfig.crossref_plus:
+            headers["Crossref-Plus-API-Token"] = GlobalConfig.crossref_plus_auth_token
 
         super().__init__("https://api.crossref.org/",
                          query_params=query_params,

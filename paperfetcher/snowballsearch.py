@@ -13,7 +13,9 @@ import pickle
 import warnings
 
 from tqdm import tqdm
+from stqdm import stqdm
 
+from paperfetcher import GlobalConfig
 from paperfetcher.apiclients import CrossrefQuery
 from paperfetcher.datastructures import DOIDataset
 from paperfetcher.exceptions import SearchError
@@ -136,7 +138,12 @@ class CrossrefBackwardReferenceSearch:
 
     # Perform search
     def __call__(self):
-        for doi in tqdm(self.search_dois):
+        if GlobalConfig.streamlit:
+            iterable = stqdm(self.search_dois)
+        else:
+            iterable = tqdm(self.search_dois)
+
+        for doi in iterable:
             # Checks
             if not self._check_doi_exists(doi):
                 raise SearchError("DOI %s does not exist." % doi)  # terminate

@@ -11,8 +11,11 @@ import logging
 import warnings
 
 import rispy
-from tqdm import tqdm
 
+from tqdm import tqdm
+from stqdm import stqdm
+
+from paperfetcher import GlobalConfig
 from paperfetcher.apiclients import CrossrefQuery
 from paperfetcher.datastructures import DOIDataset, CitationsDataset, RISDataset
 from paperfetcher.exceptions import SearchError
@@ -247,7 +250,10 @@ class CrossrefSearch:
         offsets = range(total_items)[::self.batch_size]
 
         if display_progress_bar:
-            offsets = tqdm(offsets)
+            if GlobalConfig.streamlit:
+                offsets = stqdm(offsets, desc="Fetching {} batches of 20 articles".format(len(offsets)))
+            else:
+                offsets = tqdm(offsets, desc="Fetching {} batches of 20 articles".format(len(offsets)))
         else:
             logger.info("Fetching {} batches of works.".format(len(offsets)))
 
@@ -331,7 +337,12 @@ class CrossrefSearch:
         """
         RIS_dicts = []
 
-        for work in self.results:
+        if GlobalConfig.streamlit:
+            results = stqdm(self.results, desc="Converting results to RIS format.")
+        else:
+            results = tqdm(self.results, desc="Converting results to RIS format.")
+            
+        for work in results:
             # Extract DOI and extra fields
             doi_plus = self._extract_fields(work, ['DOI'] + extra_field_list, [None] + extra_field_parser_list)
             ris_ref = self._negotiate_ris(doi_plus[0])[0]
