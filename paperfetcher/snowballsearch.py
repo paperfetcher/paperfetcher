@@ -9,15 +9,15 @@ For forward search, you can only use COCI at the moment.
 """
 from collections import OrderedDict
 import logging
-import pickle
 import warnings
 
 from tqdm import tqdm
 from stqdm import stqdm
 
 from paperfetcher import GlobalConfig
-from paperfetcher.apiclients import CrossrefQuery
-from paperfetcher.datastructures import DOIDataset
+from paperfetcher.apiclients import CrossrefQuery, COCIQuery
+from paperfetcher.content_negotiators import crossref_negotiate_ris
+from paperfetcher.datastructures import DOIDataset, RISDataset
 from paperfetcher.exceptions import SearchError
 
 # Logging
@@ -52,13 +52,13 @@ class CrossrefBackwardReferenceSearch:
     @classmethod
     def from_DOIDataset(cls, search_dataset: DOIDataset):
         """
-        Constructs a CrossrefSearch object from a DOIDataset.
+        Constructs a search object from a DOIDataset.
 
         Args:
             search_dataset (DOIDataset): Dataset of DOIs to fetch references of.
 
         Returns:
-            CrossrefSearch
+            CrossrefBackwardReferenceSearch
         """
         return cls(search_dataset._items)
 
@@ -156,26 +156,106 @@ class CrossrefBackwardReferenceSearch:
             doi_list = self._fetch_all_reference_dois(doi)
             self.result_dois.update(doi_list)
 
-    def save(self, file):
+    def get_DOIDataset(self):
         """
-        Saves search object (query and results) to file.
+        Returns search results as a DOIDataset object.
+
+        Returns:
+            DOIDataset
+        """
+        return DOIDataset(list(self.result_dois))
+
+    def get_RISDataset(self):
+        """
+        Returns search results as an RISDataset object. Uses the Crossref REST
+        API for content negotation.
+
+        Returns:
+            RISDataset
+        """
+        RIS_dicts = []
+
+        if GlobalConfig.streamlit:
+            result_dois = stqdm(self.result_dois, desc="Converting results to RIS format.")
+        else:
+            result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
+
+        for doi in result_dois:
+            # Use Crossref for content negotation
+            ris_ref = crossref_negotiate_ris(doi)[0]
+
+            # Add to list
+            RIS_dicts.append(ris_ref)
+
+        return RISDataset(RIS_dicts)
+
+
+class COCIBackwardReferenceSearch:
+    """
+    Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
+    by using the COCI REST API.
+    """
+    def __init__(self, search_dois: list):
+        self.search_dois = search_dois
+        self.result_dois = set()  # prevent duplicates
+
+    # Alternate constructor
+    @classmethod
+    def from_DOIDataset(cls, search_dataset: DOIDataset):
+        """
+        Constructs a search object from a DOIDataset.
 
         Args:
-            file (str): Name of file (.pkl extension)
-        """
-        with open(file, "wb") as f:
-            pickle.dump(self.__dict__, f)
+            search_dataset (DOIDataset): Dataset of DOIs to fetch references of.
 
-    def load(self, file):
+        Returns:
+            COCIBackwardReferenceSearch
         """
-        Loads search data (query data and results) from file.
+        return cls(search_dataset._items)
+
+    # Properties
+    def __len__(self):
+        return (len(self.result_dois))
+
+    @classmethod
+    def _fetch_all_reference_dois(cls, doi: str):
+        """
+        Fetches all references of DOI from COCI.
 
         Args:
-            file (str): Name of file (.pkl extension)
+            doi (str): DOI to fetch references of.
+
+        Returns:
+            reference_dois (list): List of DOIs
         """
-        self.__dict__.clear()
-        with open(file, "rb") as f:
-            self.__dict__.update(pickle.load(f))
+        components = OrderedDict([("references", doi)])
+        query = COCIQuery(components)
+
+        query()
+
+        references = query.response.json()
+
+        print(query.response)
+
+        reference_dois = []
+
+        for dict in references:
+            ref_doi = dict["cited"]
+            reference_dois.append(ref_doi)
+
+        return reference_dois
+
+    # Perform search
+    def __call__(self):
+        if GlobalConfig.streamlit:
+            iterable = stqdm(self.search_dois)
+        else:
+            iterable = tqdm(self.search_dois)
+
+        for doi in iterable:
+            # Fetch & update results
+            doi_list = self._fetch_all_reference_dois(doi)
+            self.result_dois.update(doi_list)
 
     def get_DOIDataset(self):
         """
@@ -186,20 +266,124 @@ class CrossrefBackwardReferenceSearch:
         """
         return DOIDataset(list(self.result_dois))
 
+    def get_RISDataset(self):
+        """
+        Returns search results as an RISDataset object. Uses the Crossref REST
+        API for content negotation.
 
-class COCIBackwardReferenceSearch:
-    """
-    Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
-    by using the COCI REST API.
-    """
-    def __init__(self):
-        raise NotImplementedError()
+        Returns:
+            RISDataset
+        """
+        RIS_dicts = []
+
+        if GlobalConfig.streamlit:
+            result_dois = stqdm(self.result_dois, desc="Converting results to RIS format.")
+        else:
+            result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
+
+        for doi in result_dois:
+            # Use Crossref for content negotation
+            ris_ref = crossref_negotiate_ris(doi)[0]
+
+            # Add to list
+            RIS_dicts.append(ris_ref)
+
+        return RISDataset(RIS_dicts)
 
 
 class COCIForwardCitationSearch:
     """
-    Retrieves the (DOIs of) all articles citing of a list of (DOIs of) articles
+    Retrieves the (DOIs of) all articles citing a list of (DOIs of) articles
     by using the COCI REST API.
     """
-    def __init__(self):
-        raise NotImplementedError()
+    def __init__(self, search_dois: list):
+        self.search_dois = search_dois
+        self.result_dois = set()  # prevent duplicates
+
+    # Alternate constructor
+    @classmethod
+    def from_DOIDataset(cls, search_dataset: DOIDataset):
+        """
+        Constructs a search object from a DOIDataset.
+
+        Args:
+            search_dataset (DOIDataset): Dataset of DOIs to fetch references of.
+
+        Returns:
+            COCIForwardReferenceSearch
+        """
+        return cls(search_dataset._items)
+
+    # Properties
+    def __len__(self):
+        return (len(self.result_dois))
+
+    @classmethod
+    def _fetch_all_citation_dois(cls, doi: str):
+        """
+        Fetches all citations of DOI from COCI.
+
+        Args:
+            doi (str): DOI to fetch citations of.
+
+        Returns:
+            citation_dois (list): List of DOIs
+        """
+        components = OrderedDict([("citations", doi)])
+        query = COCIQuery(components)
+        query()
+
+        references = query.response.json()
+
+        citation_dois = []
+
+        for dict in references:
+            cit_doi = dict["citing"]
+            citation_dois.append(cit_doi)
+
+        return citation_dois
+
+    # Perform search
+    def __call__(self):
+        if GlobalConfig.streamlit:
+            iterable = stqdm(self.search_dois)
+        else:
+            iterable = tqdm(self.search_dois)
+
+        for doi in iterable:
+            # Fetch & update results
+            doi_list = self._fetch_all_citation_dois(doi)
+            self.result_dois.update(doi_list)
+
+    def get_DOIDataset(self):
+        """
+        Returns search results as a DOIDataset object.
+
+        Returns:
+            DOIDataset
+        """
+        return DOIDataset(list(self.result_dois))
+
+    def get_RISDataset(self):
+        """
+        Returns search results as an RISDataset object. Uses the Crossref REST
+        API for content negotation.
+
+        Returns:
+            RISDataset
+        """
+        RIS_dicts = []
+
+        if GlobalConfig.streamlit:
+            result_dois = stqdm(self.result_dois, desc="Converting results to RIS format.")
+        else:
+            result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
+
+        for doi in result_dois:
+            # Use Crossref for content negotation
+            ris_ref = crossref_negotiate_ris(doi)[0]
+
+            # Add to list
+            RIS_dicts.append(ris_ref)
+
+        return RISDataset(RIS_dicts)

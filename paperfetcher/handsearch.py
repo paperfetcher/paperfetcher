@@ -6,17 +6,15 @@ within a given date range by querying various APIs.
 """
 
 from collections import OrderedDict
-import pickle
 import logging
 import warnings
-
-import rispy
 
 from tqdm import tqdm
 from stqdm import stqdm
 
 from paperfetcher import GlobalConfig
 from paperfetcher.apiclients import CrossrefQuery
+from paperfetcher.content_negotiators import crossref_negotiate_ris
 from paperfetcher.datastructures import DOIDataset, CitationsDataset, RISDataset
 from paperfetcher.exceptions import SearchError
 
@@ -201,19 +199,6 @@ class CrossrefSearch:
                 output_item.append("")
         return output_item
 
-    @classmethod
-    def _negotiate_ris(cls, doi):
-        # Build content negotation query
-        components = OrderedDict([("works", doi),
-                                  ("transform", "application/x-research-info-systems")])
-        query = CrossrefQuery(components)
-
-        # Execute query
-        query()
-
-        # rispy conversion
-        return rispy.loads(query.response.text)
-
     def __call__(self, display_progress_bar=True, select=False, select_fields=[]):
         query_params = OrderedDict()
         if self.keyword_list is None:
@@ -261,27 +246,6 @@ class CrossrefSearch:
             batch = self._fetch_batch(self.ISSN, query_params, self.batch_size,
                                       offset)
             self.results += (batch['items'])
-
-    def save(self, file):
-        """
-        Saves search object (query and results) to file.
-
-        Args:
-            file (str): Name of file (.pkl extension)
-        """
-        with open(file, "wb") as f:
-            pickle.dump(self.__dict__, f)
-
-    def load(self, file):
-        """
-        Loads search data (query data and results) from file.
-
-        Args:
-            file (str): Name of file (.pkl extension)
-        """
-        self.__dict__.clear()
-        with open(file, "rb") as f:
-            self.__dict__.update(pickle.load(f))
 
     def get_DOIDataset(self):
         """
@@ -341,11 +305,11 @@ class CrossrefSearch:
             results = stqdm(self.results, desc="Converting results to RIS format.")
         else:
             results = tqdm(self.results, desc="Converting results to RIS format.")
-            
+
         for work in results:
             # Extract DOI and extra fields
             doi_plus = self._extract_fields(work, ['DOI'] + extra_field_list, [None] + extra_field_parser_list)
-            ris_ref = self._negotiate_ris(doi_plus[0])[0]
+            ris_ref = crossref_negotiate_ris(doi_plus[0])[0]
 
             # Add in extra fields
             for fieldidx, field in enumerate(extra_field_list):

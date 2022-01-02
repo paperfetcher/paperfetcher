@@ -130,7 +130,7 @@ class CrossrefQuery(Query):
     """
 
     # Which version of the Crossref API to use.
-    __API_VERSION = 3
+    __API_VERSION = 1
 
     def __init__(self, components=OrderedDict(), query_params=OrderedDict()):
         # Crossref API etiquette
@@ -140,14 +140,15 @@ class CrossrefQuery(Query):
         if GlobalConfig.crossref_plus:
             headers["Crossref-Plus-API-Token"] = GlobalConfig.crossref_plus_auth_token
 
-        super().__init__("https://api.crossref.org/",
+        super().__init__("https://api.crossref.org/v{}/".format(self.__API_VERSION),
                          query_params=query_params,
                          headers=headers)
 
-        # Components can be added later too.
-        # The order in which components are added is preserved (this is important!).
-        # All the components will be unpacked only at call time.
+        # Specific to Crossref API call structure
         self.components = components
+
+        # The order in which components and query params are added is preserved (this is important!).
+        # Both components and query params will be unpacked only at call time.
 
     def __call__(self):
         # Unpack components
@@ -162,5 +163,36 @@ class CrossrefQuery(Query):
 
 
 class COCIQuery(Query):
-    def __init__(self, base_url=None, query_params: dict = {}, headers: str = {}):
-        raise NotImplementedError()
+    """
+    Class for structuring and executing COCI REST API queries.
+
+    TODO rest of doc
+    """
+
+    # Which version of the COCI  API to use.
+    __API_VERSION = 1
+
+    def __init__(self, components=OrderedDict(), query_params=OrderedDict()):
+        super().__init__("https://opencitations.net/index/coci/api/v{}/".format(self.__API_VERSION),
+                         query_params=query_params,
+                         headers={})
+
+        # Specific to COCI API call structure
+        self.components = components
+
+        # The order in which components and query params are added is preserved (this is important!).
+        # Both components and query params will be unpacked only at call time.
+
+    def __call__(self):
+        # Unpack components
+        for k, v in self.components.items():
+            if v is not None:
+                self.query_base += "%s/%s/" % (k, v)
+            else:
+                self.query_base += "%s/" % k
+
+        if self.query_base[-1] == "/":
+            self.query_base = self.query_base[:-1]
+
+        # Call
+        super().__call__()

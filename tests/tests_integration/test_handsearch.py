@@ -12,11 +12,8 @@ from paperfetcher import parsers
 
 logger = logging.getLogger(__name__)
 
-# Set logging default to INFO
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-
-def notest_Crossref_JACS_nokeywords():
+def test_Crossref_JACS_nokeywords():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
                                        until_date="2020-04-01")
     # fast/low memory search
@@ -30,7 +27,7 @@ def notest_Crossref_JACS_nokeywords():
     assert(len(search) == 772)
 
 
-def notest_Crossref_JACS_emptykeywords():
+def test_Crossref_JACS_emptykeywords():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
                                        until_date="2020-04-01")
     # fast/low memory search
@@ -44,7 +41,7 @@ def notest_Crossref_JACS_emptykeywords():
     assert(len(search) == 772)
 
 
-def notest_Crossref_JACS_hydration_DOIDataset():
+def test_Crossref_JACS_hydration_DOIDataset():
     search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=["hydration"], from_date="2018-01-01",
                                        until_date="2020-01-01")
     search()
@@ -144,5 +141,8 @@ def test_Crossref_PNAS_hydrophobic_RISDataset():
     if not os.path.exists("./tmp/"):
         os.makedirs("./tmp/")
 
+    # Check conversion to RIS without abstracts
     ds_noabs.save_ris("./tmp/PNAS_hydrophobic.ris")
+
+    # Check conversion to RIS with abstracts
     ds_abs.save_ris("./tmp/PNAS_hydrophobic_withabstract.ris")

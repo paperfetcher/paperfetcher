@@ -10,9 +10,6 @@ from paperfetcher.apiclients import Query, CrossrefQuery, QueryError
 
 logger = logging.getLogger(__name__)
 
-# Set logging default to DEBUG
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
 
 """Query tests"""
 
