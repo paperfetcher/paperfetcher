@@ -22,6 +22,7 @@ from paperfetcher.exceptions import SearchError
 
 # Logging
 logger = logging.getLogger(__name__)
+logger.setLevel(GlobalConfig.loglevel)
 
 
 class CrossrefBackwardReferenceSearch:

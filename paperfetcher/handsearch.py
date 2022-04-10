@@ -20,6 +20,7 @@ from paperfetcher.exceptions import SearchError
 
 # Logging
 logger = logging.getLogger(__name__)
+logger.setLevel(GlobalConfig.loglevel)
 
 
 class CrossrefSearch:
@@ -199,6 +200,43 @@ class CrossrefSearch:
                 output_item.append("")
         return output_item
 
+    def dry_run(self, select=False, select_fields=[]):
+        """
+        How many works will this search fetch?
+        """
+        query_params = OrderedDict()
+        if self.keyword_list is None:
+            if not select:
+                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider setting select=True and using select_fields to fetch only a subset of fields.")
+        elif len(self.keyword_list) == 0:
+            if not select:
+                warnings.warn("Search with no keywords and no select can be slow and memory intensive. Consider setting select=True and using select_fields to fetch only a subset of fields.")
+        else:
+            query_params['query'] = "+".join(self.keyword_list)
+
+        if self.from_date is not None and self.until_date is not None:
+            query_params['filter'] = "from-pub-date:{},until-pub-date:{}".format(
+                                     self.from_date, self.until_date)
+        elif self.from_date is not None:
+            query_params['filter'] = "from-pub-date:{}".format(
+                                     self.from_date)
+        elif self.until_date is not None:
+            query_params['filter'] = "until-pub-date:{}".format(
+                                     self.until_date)
+
+        query_params['facet'] = "type-name:{}".format(self.type)
+        query_params['sort'] = "published"
+        query_params['order'] = self.sort_order
+
+        if(select):
+            if(len(select_fields) == 0):
+                raise SearchError("select_fields cannot be empty when select is True.")
+            query_params['select'] = ",".join(select_fields)
+
+        total_items = self._fetch_count(self.ISSN, query_params)
+
+        return total_items
+
     def __call__(self, display_progress_bar=True, select=False, select_fields=[]):
         query_params = OrderedDict()
         if self.keyword_list is None:
@@ -230,7 +268,7 @@ class CrossrefSearch:
             query_params['select'] = ",".join(select_fields)
 
         total_items = self._fetch_count(self.ISSN, query_params)
-        logger.info("Fetching {} works.".format(total_items, self.batch_size))
+        logger.info("Fetching {} works.".format(total_items))
 
         offsets = range(total_items)[::self.batch_size]
 

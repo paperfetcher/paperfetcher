@@ -13,6 +13,7 @@ from paperfetcher.exceptions import QueryError
 
 # Logging
 logger = logging.getLogger(__name__)
+logger.setLevel(GlobalConfig.loglevel)
 
 
 class Query:
