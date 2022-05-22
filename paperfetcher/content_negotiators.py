@@ -9,6 +9,7 @@ import logging
 import rispy
 
 from paperfetcher.apiclients import CrossrefQuery
+from paperfetcher.exceptions import ContentNegotiationError
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -31,6 +32,9 @@ def crossref_negotiate_ris(doi):
 
     # Execute query
     query()
+
+    if not (query.response.status_code == 200):
+        raise ContentNegotiationError("Could not get RIS metadata for DOI %s" % doi)
 
     # rispy conversion
     return rispy.loads(query.response.text)
