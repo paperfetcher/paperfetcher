@@ -1,0 +1,174 @@
+TY  - JOUR
+DO  - 10.1073/pnas.2023867118
+UR  - http://dx.doi.org/10.1073/pnas.2023867118
+TI  - Size dependence of hydrophobic hydration at electrified gold/water interfaces
+T2  - Proceedings of the National Academy of Sciences
+AU  - Serva, Alessandra
+AU  - Salanne, Mathieu
+AU  - Havenith, Martina
+AU  - Pezzotti, Simone
+PY  - 2021
+DA  - 2021/04/05
+PB  - Proceedings of the National Academy of Sciences
+IS  - 15
+VL  - 118
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>
+            The optimization of “green” electrochemical processes is one of the most important challenges in the transition toward renewable energy technologies. In many of these processes, including, e.g.,
+            <jats:inline-formula>
+              <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" overflow="scroll">
+                <mml:msub>
+                  <mml:mrow>
+                    <mml:mi mathvariant="normal">C</mml:mi>
+                    <mml:mi mathvariant="normal">O</mml:mi>
+                  </mml:mrow>
+                  <mml:mrow>
+                    <mml:mn>2</mml:mn>
+                  </mml:mrow>
+                </mml:msub>
+              </mml:math>
+            </jats:inline-formula>
+            and
+            <jats:inline-formula>
+              <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" overflow="scroll">
+                <mml:msub>
+                  <mml:mrow>
+                    <mml:mi mathvariant="normal">N</mml:mi>
+                  </mml:mrow>
+                  <mml:mrow>
+                    <mml:mn>2</mml:mn>
+                  </mml:mrow>
+                </mml:msub>
+              </mml:math>
+            </jats:inline-formula>
+            reduction, small hydrophobic molecules are formed and react at the interface, and their hydration free energy modulates the associated thermodynamics. Here, we use molecular dynamics simulations to elucidate the mechanisms and energetics of hydrophobic hydration at an electrified gold/water interface. We propose an adaptation of the Lum–Chandler–Weeks theory that maps the changes in hydration free energies at the interface as a function of solute size and applied potential.
+          </jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.2018234118
+UR  - http://dx.doi.org/10.1073/pnas.2018234118
+TI  - Identifying hydrophobic protein patches to inform protein interaction interfaces
+T2  - Proceedings of the National Academy of Sciences
+AU  - Rego, Nicholas B.
+AU  - Xi, Erte
+AU  - Patel, Amish J.
+PY  - 2021
+DA  - 2021/02
+PB  - Proceedings of the National Academy of Sciences
+IS  - 6
+VL  - 118
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>Hydrophobicity drives diverse aqueous assemblies, including the interactions between proteins. Conventional wisdom stipulates that the hydrophobicity of a surface must be inversely related to its polarity. By using specialized molecular simulations to characterize protein hydrophobicity, here, we challenge this notion and demonstrate that polar/charged atoms comprise a substantial fraction of hydrophobic protein patches. Moreover, hydrophobic and hydrophilic protein patches have surprisingly similar chemical compositions. We further find that the most hydrophobic protein patches also tend to mediate protein interactions. Our work thus establishes a computational framework for characterizing the hydrophobicity of complex solutes, such as proteins, and for uncovering their interaction interfaces.</jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.2020205118
+UR  - http://dx.doi.org/10.1073/pnas.2020205118
+TI  - Affinity of small-molecule solutes to hydrophobic, hydrophilic, and chemically patterned interfaces in aqueous solution
+T2  - Proceedings of the National Academy of Sciences
+AU  - Monroe, Jacob I.
+AU  - Jiao, Sally
+AU  - Davis, R. Justin
+AU  - Robinson Brown, Dennis
+AU  - Katz, Lynn E.
+AU  - Shell, M. Scott
+PY  - 2020
+DA  - 2020/12/28
+PB  - Proceedings of the National Academy of Sciences
+IS  - 1
+VL  - 118
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>Increasing global population, urbanization, and climate change pose tremendous constraints on water availability. While membrane processes offer attractive, energy-efficient options, transformative advances in membrane technology are needed to enable reuse of poor-quality waters from diverse sources. This work brings fundamental understanding of solute–surface interactions to membrane phenomena, including selectivity and fouling. Molecular simulations reveal limitations of traditional predictive measures of solute–surface partitioning, suggesting alternative thermodynamic signatures for solute binding that highlight the contextual nature of hydrophobicity. An inverse design algorithm provides a tool to pattern membrane nanoscale chemistry to optimize solute affinity and selectivity. This work demonstrates how simulations can inform practical materials design for sustainable water treatment and, more broadly, many technologies involving water-mediated solute–surface interactions.</jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.2008122117
+UR  - http://dx.doi.org/10.1073/pnas.2008122117
+TI  - Comparative roles of charge, <i>Ï€</i> , and hydrophobic interactions in sequence-dependent phase separation of intrinsically disordered proteins
+T2  - Proceedings of the National Academy of Sciences
+AU  - Das, Suman
+AU  - Lin, Yi-Hsuan
+AU  - Vernon, Robert M.
+AU  - Forman-Kay, Julie D.
+AU  - Chan, Hue Sun
+PY  - 2020
+DA  - 2020/11/02
+PB  - Proceedings of the National Academy of Sciences
+SP  - 28795-28805
+IS  - 46
+VL  - 117
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>
+            Mesoscopic condensates of proteins and nucleic acids, including membraneless organelles, serve myriad biological functions, whereas dysregulation of condensates can cause disease. How condensates are governed by genetically encoded biomolecular sequences is of central importance. Critical assessment of how various interactions reproduce experimental phase behaviors indicates that
+            <jats:inline-formula>
+              <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" overflow="scroll">
+                <mml:mi>π</mml:mi>
+              </mml:math>
+            </jats:inline-formula>
+            -interactions’ notable facilitation of condensate formation is well reflected in established contact statistics among folded protein structures, although the condensate-driving capability of the large hydrophobic/aromatic residue phenylalanine is weaker than expected. By elucidating physical aspects of the residue–residue contacts in condensates, highlighting these contacts’ largely solvent-exposed character with ramifications such as reduced hydrophobic strengths relative to buried nonpolar contacts, fundamental conceptual and quantitative progress is made toward predictive models for biomolecular condensates.
+          </jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.2009310117
+UR  - http://dx.doi.org/10.1073/pnas.2009310117
+TI  - Spontaneous outflow efficiency of confined liquid in hydrophobic nanopores
+T2  - Proceedings of the National Academy of Sciences
+AU  - Gao, Yuan
+AU  - Li, Mingzhe
+AU  - Zhang, Yue
+AU  - Lu, Weiyi
+AU  - Xu, Baoxing
+PY  - 2020
+DA  - 2020/09/28
+PB  - Proceedings of the National Academy of Sciences
+SP  - 25246-25253
+IS  - 41
+VL  - 117
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>The outflow of prior confined or intruded liquid from a hydrophobic pore at the nanoscale is the foundation for devising nanofluidics-enabled, reusable functional materials, structures, and devices and is fundamentally different from that at the macroscale due to nanoconfinement effects. We, in both molecular-dynamics simulations and experiments, addressed the nanoconfinement mechanism that hinders the outflow of nanoconfined various liquid by investigating both inflow and outflow processes of liquid in hydrophobic nanopores and demonstrated that a continuous and spontaneous outflow with high and stable efficiency could be achieved. The elucidated outflow mechanisms and regulation strategies will provide a rational route for exploring high-performance reusable devices in a broad scope of nanoporous materials and liquid environments by leveraging unique nanopore–liquid interactions.</jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.2008209117
+UR  - http://dx.doi.org/10.1073/pnas.2008209117
+TI  - Enhanced receptor binding of SARS-CoV-2 through networks of hydrogen-bonding and hydrophobic interactions
+T2  - Proceedings of the National Academy of Sciences
+AU  - Wang, Yingjie
+AU  - Liu, Meiyi
+AU  - Gao, Jiali
+PY  - 2020
+DA  - 2020/06/05
+PB  - Proceedings of the National Academy of Sciences
+SP  - 13967-13974
+IS  - 25
+VL  - 117
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>Enhanced receptor binding by the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) is believed to contribute to the highly contagious transmission rate of coronavirus disease 2019. An understanding of the structural and energetic details responsible for protein–protein interactions between the host receptor ACE2 and SARS-CoV-2 can be useful to epidemic surveillance, diagnosis, and optimization of neutralizing agents. The present study unravels a delicate balance of specific and nonspecific hydrogen-bonding and hydrophobic networks to help elucidate the similarities and differences in receptor binding by SARS-CoV-2 and SARS-CoV.</jats:p>
+ER  - 
+
+TY  - JOUR
+DO  - 10.1073/pnas.1918981117
+UR  - http://dx.doi.org/10.1073/pnas.1918981117
+TI  - Short solvent model for ion correlations and hydrophobic association
+T2  - Proceedings of the National Academy of Sciences
+AU  - Gao, Ang
+AU  - Remsing, Richard C.
+AU  - Weeks, John D.
+PY  - 2020
+DA  - 2020/01/07
+PB  - Proceedings of the National Academy of Sciences
+SP  - 1293-1302
+IS  - 3
+VL  - 117
+SN  - 0027-8424
+N2  - <jats:title>Significance</jats:title>
+          <jats:p>Solvent-mediated interactions are a major driving force in phenomena ranging from protein folding and ligand–receptor binding to self-assembly. Coulomb interactions in polar solvents like water can act over long ranges, impeding the development of simple local pictures and adding overhead to computer simulations. Here we use local molecular field theory to accurately determine the contributions from long-ranged Coulomb interactions to the potential of mean force between ionic and apolar solutes in dilute aqueous solutions, using results from a “short solvent” system with truncated solvent Coulomb interactions. We anticipate that our approach will facilitate more efficient simulations of large and complex biomolecular and materials systems, in addition to creating a better understanding of solvent effects driven by long-ranged interactions.</jats:p>
+ER  - 

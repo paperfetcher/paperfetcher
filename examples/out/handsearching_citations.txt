@@ -1,0 +1,8 @@
+DOI	URL	title	author	issued
+10.1073/pnas.2023867118	http://dx.doi.org/10.1073/pnas.2023867118	Size dependence of hydrophobic hydration at electrified gold/water interfaces	Serva, Salanne, Havenith, Pezzotti	2021-4-5
+10.1073/pnas.2018234118	http://dx.doi.org/10.1073/pnas.2018234118	Identifying hydrophobic protein patches to inform protein interaction interfaces	Rego, Xi, Patel	2021-2
+10.1073/pnas.2020205118	http://dx.doi.org/10.1073/pnas.2020205118	Affinity of small-molecule solutes to hydrophobic, hydrophilic, and chemically patterned interfaces in aqueous solution	Monroe, Jiao, Davis, Robinson Brown, Katz, Shell	2020-12-28
+10.1073/pnas.2008122117	http://dx.doi.org/10.1073/pnas.2008122117	Comparative roles of charge, <i>π</i> , and hydrophobic interactions in sequence-dependent phase separation of intrinsically disordered proteins	Das, Lin, Vernon, Forman-Kay, Chan	2020-11-2
+10.1073/pnas.2009310117	http://dx.doi.org/10.1073/pnas.2009310117	Spontaneous outflow efficiency of confined liquid in hydrophobic nanopores	Gao, Li, Zhang, Lu, Xu	2020-9-28
+10.1073/pnas.2008209117	http://dx.doi.org/10.1073/pnas.2008209117	Enhanced receptor binding of SARS-CoV-2 through networks of hydrogen-bonding and hydrophobic interactions	Wang, Liu, Gao	2020-6-5
+10.1073/pnas.1918981117	http://dx.doi.org/10.1073/pnas.1918981117	Short solvent model for ion correlations and hydrophobic association	Gao, Remsing, Weeks	2020-1-7
