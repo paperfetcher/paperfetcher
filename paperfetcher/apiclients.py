@@ -167,7 +167,37 @@ class COCIQuery(Query):
     """
     Class for structuring and executing COCI REST API queries.
 
-    TODO rest of doc
+    Args:
+        components (collections.OrderedDict): Components to append to the base URL.
+        query_params (collections.OrderedDict): Ordered dictionary of query parameters.
+
+    Attributes:
+        components (collections.OrderedDict): Components to append to the base URL.
+        query_base (str): Base URL for query (https://opencitations.net/index/coci/api/v{}/...).
+        query_params (collections.OrderedDict): Dictionary of query parameters.
+        headers (dict): Dictionary of HTTP headers.
+        response (requests.Response): Response recieved on executing GET query to the COCI API.
+
+    Examples:
+        Querying the references of a paper with a known DOI:
+
+        >>> query = COCIQuery(components=OrderedDict([("references", "10.1021/acs.jpcb.1c02191")]))
+        >>> query()
+        >>> query.response
+        <Response [200]>
+        >>> query.response.json()
+        [{'oci': '020010002013610122837192512113701120002010901-0200100000236191212370201090809', 'creation': '2021-05-12', 'timespan': 'P9Y5M19D',
+        ...}]
+
+        Querying the citations of a paper with a known DOI:
+
+        >>> query = COCIQuery(components=OrderedDict([("citations", "10.1021/acs.jpcb.1c02191")]))
+        >>> query()
+        >>> query.response
+        <Response [200]>
+        >>> query.response.json()
+        [{'oci': '0200100000236252421370200020100050206-020010002013610122837192512113701120002010901', 'creation': '2021-10-02', 'timespan': 'P4M20D',
+         'journal_sc': 'no', 'author_sc': 'no', 'citing': '10.1002/pol.20210526', 'cited': '10.1021/acs.jpcb.1c02191'}]
     """
 
     # Which version of the COCI  API to use.

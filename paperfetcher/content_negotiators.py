@@ -5,7 +5,6 @@ Content negotiators to fetch citations in different formats.
 """
 from collections import OrderedDict
 import logging
-import warnings
 
 import rispy
 
