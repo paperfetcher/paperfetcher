@@ -126,3 +126,17 @@ def test_COCIForward():
 
     # Check conversion to RIS
     ris_ds.save_ris("./tmp/snowball_COCI_fwd.ris")
+
+
+def test_COCIForward_errorhandling():
+    input_DOIs = ["10.1021/acs.jpcb.8b11423", "xx.yy.zz/12345.67890", "10.1146/annurev-conmatphys-040220-045516", "10.1073/pnas.2018234118"]
+    test_output_DOI_members = ["10.1021/acs.jpcb.1c02191"]
+
+    search = snowballsearch.COCIForwardCitationSearch(input_DOIs)
+    search()
+
+    print(len(search))  # this will change with time, do NOT test this value
+
+    print(search.result_dois)
+    for doi in test_output_DOI_members:
+        assert(doi in search.result_dois)

@@ -218,8 +218,17 @@ class COCIBackwardReferenceSearch:
     Args:
         search_dois (list): List of DOIs (str) to fetch references of.
 
-    Raises:
-        SearchError if DOI is not found in COCI.
+    Attributes:
+        search_dois (list): List of DOIs (str) to fetch references of.
+        result_dois (set): Set of DOIs which are referenced by the DOIs in `search_dois`.
+
+    Example:
+        >>> search = snowballsearch.COCIBackwardReferenceSearch(["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"])
+        >>> search()
+        >>> len(search)
+        140
+        >>> search.result_dois
+        {'10.1021/jp972543+', '10.1073/pnas.0708088105',  ... ,  '10.1073/pnas.0705830104'}
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -269,21 +278,28 @@ class COCIBackwardReferenceSearch:
 
         Returns:
             reference_dois (list): List of DOIs
+
+        Raises:
+            SearchError if unable to convert query response to JSON format and extract reference data from it.
         """
         components = OrderedDict([("references", doi)])
         query = COCIQuery(components)
 
         query()
 
-        references = query.response.json()
+        try:
+            references = query.response.json()
 
-        reference_dois = []
+            reference_dois = []
 
-        for dict in references:
-            ref_doi = dict["cited"]
-            reference_dois.append(ref_doi)
+            for dict in references:
+                ref_doi = dict["cited"]
+                reference_dois.append(ref_doi)
 
-        return reference_dois
+            return reference_dois
+
+        except Exception:
+            raise SearchError("Cannot decode results for the DOI %s" % doi)
 
     # Perform search
     def __call__(self):
@@ -295,11 +311,16 @@ class COCIBackwardReferenceSearch:
         for doi in iterable:
             # Checks
             if not self._check_doi_exists(doi):
-                raise SearchError("DOI %s not found in COCI." % doi)  # terminate
+                warnings.warn("DOI %s not found in COCI. Skipping this DOI." % doi)  # warn but continue
+                continue
 
-            # Fetch & update results
-            doi_list = self._fetch_all_reference_dois(doi)
-            self.result_dois.update(doi_list)
+            try:
+                # Fetch & update results
+                doi_list = self._fetch_all_reference_dois(doi)
+                self.result_dois.update(doi_list)
+
+            except SearchError:
+                warnings.warn("Error in retrieving reference metadata for DOI %s. Skipping this DOI." % doi)
 
     def get_DOIDataset(self):
         """
@@ -326,8 +347,13 @@ class COCIBackwardReferenceSearch:
             result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
 
         for doi in result_dois:
-            # Use Crossref for content negotation
-            ris_ref = crossref_negotiate_ris(doi)[0]
+            try:
+                # Use Crossref for content negotation
+                ris_ref = crossref_negotiate_ris(doi)[0]
+
+            except (ContentNegotiationError, RISParsingError):
+                warnings.warn("Failed to get RIS metadata for DOI %s. Appending just the DOI to the RIS dataset." % doi)
+                ris_ref = {'type_of_reference': 'JOUR', 'doi': doi}
 
             # Add to list
             RIS_dicts.append(ris_ref)
@@ -343,8 +369,17 @@ class COCIForwardCitationSearch:
     Args:
         search_dois (list): List of DOIs (str) to fetch citations of.
 
-    Raises:
-        SearchError if DOI is not found in COCI.
+    Attributes:
+        search_dois (list): List of DOIs (str) to fetch citations of.
+        result_dois (set): Set of DOIs which cite the DOIs in `search_dois`.
+
+    Example:
+        >>> search = snowballsearch.COCIForwardCitationSearch(["10.1021/acs.jpcb.8b11423", "10.1073/pnas.2018234118"])
+        >>> search()
+        >>> len(search)
+        11
+        >>> search.result_dois
+        {'10.1039/c9sc02097g', '10.1021/acs.jpcb.1c05748', ... , '10.1021/acs.jpclett.9b02052'}
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -394,20 +429,27 @@ class COCIForwardCitationSearch:
 
         Returns:
             citation_dois (list): List of DOIs
+
+        Raises:
+            SearchError if unable to convert query response to JSON format and extract citation data from it.
         """
         components = OrderedDict([("citations", doi)])
         query = COCIQuery(components)
         query()
 
-        references = query.response.json()
+        try:
+            references = query.response.json()
 
-        citation_dois = []
+            citation_dois = []
 
-        for dict in references:
-            cit_doi = dict["citing"]
-            citation_dois.append(cit_doi)
+            for dict in references:
+                cit_doi = dict["citing"]
+                citation_dois.append(cit_doi)
 
-        return citation_dois
+            return citation_dois
+
+        except Exception:
+            raise SearchError("Cannot decode results for the DOI %s" % doi)
 
     # Perform search
     def __call__(self):
@@ -419,11 +461,16 @@ class COCIForwardCitationSearch:
         for doi in iterable:
             # Checks
             if not self._check_doi_exists(doi):
-                raise SearchError("DOI %s not found in COCI." % doi)  # terminate
+                warnings.warn("DOI %s not found in COCI. Skipping this DOI." % doi)  # warn but continue
+                continue
 
-            # Fetch & update results
-            doi_list = self._fetch_all_citation_dois(doi)
-            self.result_dois.update(doi_list)
+            try:
+                # Fetch & update results
+                doi_list = self._fetch_all_citation_dois(doi)
+                self.result_dois.update(doi_list)
+
+            except SearchError:
+                warnings.warn("Error in retrieving citation metadata for DOI %s. Skipping this DOI." % doi)
 
     def get_DOIDataset(self):
         """
@@ -450,8 +497,13 @@ class COCIForwardCitationSearch:
             result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
 
         for doi in result_dois:
-            # Use Crossref for content negotation
-            ris_ref = crossref_negotiate_ris(doi)[0]
+            try:
+                # Use Crossref for content negotation
+                ris_ref = crossref_negotiate_ris(doi)[0]
+
+            except (ContentNegotiationError, RISParsingError):
+                warnings.warn("Failed to get RIS metadata for DOI %s. Appending just the DOI to the RIS dataset." % doi)
+                ris_ref = {'type_of_reference': 'JOUR', 'doi': doi}
 
             # Add to list
             RIS_dicts.append(ris_ref)
