@@ -7,6 +7,7 @@ import logging
 import sys
 
 from paperfetcher import handsearch
+from paperfetcher.exceptions import SearchError
 
 logger = logging.getLogger(__name__)
 
@@ -26,8 +27,22 @@ def test_fetch_count():
     assert(type(count) == int)
 
 
+def test_fetch_count_errorhandling():
+    try:
+        handsearch.CrossrefSearch._fetch_count("XXXXX")
+    except SearchError as e:
+        print(str(e))
+
+
 def test_fetch_batch():
     data = handsearch.CrossrefSearch._fetch_batch("1476-4687", size=5)
     logger.info(data)
     assert(type(data) == dict)
     assert(len(data['items']) == 5)
+
+
+def test_fetch_batch_errorhandling():
+    try:
+        handsearch.CrossrefSearch._fetch_batch("XXXXX", size=5)
+    except SearchError as e:
+        print(str(e))

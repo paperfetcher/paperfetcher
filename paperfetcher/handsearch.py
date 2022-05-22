@@ -126,8 +126,12 @@ class CrossrefSearch:
         Args:
             issn (str): ISSN of journal to check
             query_params (collections.OrderedDict): Parameters for query (default={})
+
         Returns:
             int
+
+        Raises:
+            SearchError if ISSN does not exist, or if unable to decode JSON response.
         """
         # Retrive summary of results only
         query_params['rows'] = 0
@@ -138,10 +142,15 @@ class CrossrefSearch:
             query = CrossrefQuery(components,
                                   query_params=query_params)
             query()
-            data = query.response.json()
-            return data['message']['total-results']
+
+            try:
+                data = query.response.json()
+                return data['message']['total-results']
+
+            except Exception:
+                raise SearchError("Cannot decode results for the ISSN %s" % issn)
         else:
-            raise SearchError("ISSN does not exist.")
+            raise SearchError("ISSN %s is not indexed in Crossref." % issn)
 
     @classmethod
     def _fetch_batch(cls, issn: str, query_params=OrderedDict(), size=20,
@@ -167,10 +176,15 @@ class CrossrefSearch:
             query = CrossrefQuery(components,
                                   query_params=query_params)
             query()
-            data = query.response.json()
-            return data['message']
+
+            try:
+                data = query.response.json()
+                return data['message']
+
+            except Exception:
+                raise SearchError("Cannot decode results for offset %d of the ISSN %s" % (offset, issn))
         else:
-            raise SearchError("ISSN does not exist.")
+            raise SearchError("ISSN %s is not indexed in Crossref." % issn)
 
     @classmethod
     def _extract_fields(cls, json_item, field_list, field_parsers_list):
@@ -189,15 +203,23 @@ class CrossrefSearch:
         output_item = []
         for fidx in range(len(field_list)):
             field = field_list[fidx]
-            field_parser = field_parsers_list[fidx]
+
+            try:
+                field_parser = field_parsers_list[fidx]
+
+            except IndexError:
+                raise SearchError("No field parser corresponding to field %s was provided." % field)
+
             try:
                 extracted_field = json_item[field]
                 if field_parser is not None:
                     output_item.append(field_parser(extracted_field))
                 else:
                     output_item.append(extracted_field)
+
             except KeyError:
                 output_item.append("")
+
         return output_item
 
     def dry_run(self, select=False, select_fields=[]):
@@ -274,16 +296,21 @@ class CrossrefSearch:
 
         if display_progress_bar:
             if GlobalConfig.streamlit:
-                offsets = stqdm(offsets, desc="Fetching {} batches of 20 articles".format(len(offsets)))
+                offsets = stqdm(offsets, desc="Fetching {} batches of {} articles".format(len(offsets), self.batch_size))
             else:
-                offsets = tqdm(offsets, desc="Fetching {} batches of 20 articles".format(len(offsets)))
+                offsets = tqdm(offsets, desc="Fetching {} batches of {} articles".format(len(offsets), self.batch_size))
         else:
-            logger.info("Fetching {} batches of works.".format(len(offsets)))
+            logger.info("Fetching {} batches of {} articles.".format(len(offsets), self.batch_size))
 
         for offset in offsets:
-            batch = self._fetch_batch(self.ISSN, query_params, self.batch_size,
-                                      offset)
-            self.results += (batch['items'])
+            try:
+                batch = self._fetch_batch(self.ISSN, query_params, self.batch_size,
+                                          offset)
+                self.results += (batch['items'])
+
+            except (SearchError, Exception):
+                # Do not fail in the middle of a search
+                warnings.warn("Error in fetching batch of items from %d - %d. Omitting these items from search results." % (offset, offset + self.batch_size))
 
     def get_DOIDataset(self):
         """
@@ -294,7 +321,10 @@ class CrossrefSearch:
         """
         DOIlist = []
         for work in self.results:
-            DOIlist.append(work['DOI'])
+            try:
+                DOIlist.append(work['DOI'])
+            except Exception:
+                warnings.warn("Work {} did not contain a DOI. Omitting from search results.".format(str(work)))
         logger.debug(DOIlist)
         return DOIDataset(DOIlist)
 
@@ -320,7 +350,11 @@ class CrossrefSearch:
         """
         Citationlist = []
         for work in self.results:
-            Citationlist.append(self._extract_fields(work, field_list, field_parsers_list))
+            try:
+                fields = self._extract_fields(work, field_list, field_parsers_list)
+                Citationlist.append(fields)
+            except Exception:
+                warnings.warn("Could not extract data from work {}. Omitting from search results.".format(str(work)))
         logger.debug(Citationlist)
         return CitationsDataset(field_list, Citationlist)
 
@@ -335,7 +369,10 @@ class CrossrefSearch:
         arguments.
 
         Args:
-            TODO
+            extra_field_list (list): List of extra fields to parse and include in RIS file (see Crossref REST API doc for permissible field name values).
+            extra_field_parser_list (list): List of field parser functions corresponding to each extra field name. A `None` value means that no parser
+                is needed for that field.
+            extra_field_rispy_tags (list): List of rispy tags for each extra field.
         """
         RIS_dicts = []
 
@@ -345,9 +382,20 @@ class CrossrefSearch:
             results = tqdm(self.results, desc="Converting results to RIS format.")
 
         for work in results:
-            # Extract DOI and extra fields
-            doi_plus = self._extract_fields(work, ['DOI'] + extra_field_list, [None] + extra_field_parser_list)
-            ris_ref = crossref_negotiate_ris(doi_plus[0])[0]
+            try:
+                # Extract DOI and extra fields
+                doi_plus = self._extract_fields(work, ['DOI'] + extra_field_list, [None] + extra_field_parser_list)
+                ris_ref = crossref_negotiate_ris(doi_plus[0])[0]
+
+            except Exception:
+                try:
+                    doi = work['DOI']
+                    ris_ref = {'type_of_reference': 'JOUR', 'doi': doi}
+                    warnings.warn("Failed to get RIS metadata for DOI %s. Appending just the DOI to the RIS dataset." % doi)
+
+                except Exception:
+                    warnings.warn("Failed to get DOI from work {}. Skipping.".format(str(work)))
+                    continue
 
             # Add in extra fields
             for fieldidx, field in enumerate(extra_field_list):

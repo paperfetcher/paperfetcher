@@ -27,7 +27,7 @@ def test_Crossref_JACS_nokeywords():
 
 
 def test_Crossref_JACS_emptykeywords():
-    search = handsearch.CrossrefSearch(ISSN="1520-5126", from_date="2020-01-01",
+    search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=[""], from_date="2020-01-01",
                                        until_date="2020-04-01")
     # fast/low memory search
     search(select=True, select_fields=['DOI'])
@@ -145,3 +145,40 @@ def test_Crossref_PNAS_hydrophobic_RISDataset():
 
     # Check conversion to RIS with abstracts
     ds_abs.save_ris("./tmp/PNAS_hydrophobic_withabstract.ris")
+
+
+def test_Crossref_JACS_nomatch_keywords():
+    search = handsearch.CrossrefSearch(ISSN="1520-5126", keyword_list=["adsjkfhadjklhfjkahserkjhajsdhrf"], from_date="2020-01-01",
+                                       until_date="2020-04-01")
+
+    # fast/low memory search
+    search(select=True, select_fields=['DOI', 'URL', 'title', 'author', 'issued', 'abstract'])
+
+    print(len(search))
+    assert(len(search) == 0)
+
+    # Check DOIDataset
+    ds = search.get_DOIDataset()
+    print(len(ds))
+    assert(len(ds) == 0)
+
+    # Check citations dataset
+    ds = search.get_CitationsDataset(field_list=['DOI', 'URL', 'title', 'author', 'issued'],
+                                     field_parsers_list=[None, None, parsers.crossref_title_parser,
+                                                         parsers.crossref_authors_parser, parsers.crossref_date_parser])
+    print(len(ds))
+    assert(len(ds) == 0)
+
+    # RISDataset without abstract
+    ds_noabs = search.get_RISDataset()
+    print(ds_noabs.to_ris_string())
+    print(len(ds_noabs))
+    assert(len(ds_noabs) == 0)
+
+    # RISDataset with abstract
+    ds_abs = search.get_RISDataset(extra_field_list=["abstract"],
+                                   extra_field_parser_list=[None],
+                                   extra_field_rispy_tags=["notes_abstract"])
+    print(ds_abs.to_ris_string())
+    print(len(ds_abs))
+    assert(len(ds_abs) == 0)
