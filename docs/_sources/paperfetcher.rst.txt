@@ -36,14 +36,6 @@ paperfetcher.handsearch module
    :undoc-members:
    :show-inheritance:
 
-paperfetcher.nbutils module
----------------------------
-
-.. automodule:: paperfetcher.nbutils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 paperfetcher.parsers module
 ---------------------------
 

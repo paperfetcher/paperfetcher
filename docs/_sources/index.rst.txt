@@ -9,8 +9,11 @@ paperfetcher
 
 :Release: |release|
 
-Paperfetcher is a Python package to mine papers for systematic reviews.
-In particular, paperfetcher automates the hand-search and snowball-search portions of the systematic review process.
+Paperfetcher is a Python package to automate handsearching and citation searching
+(snowballing) for systematic reviews. To learn more about Paperfetcher, visit
+`paperfetcher.github.io`_.
+
+.. _`paperfetcher.github.io`: https://paperfetcher.github.io/
 
 Paperfetcher works with Python 3.7+.
 
@@ -82,26 +85,22 @@ To run integration tests:
 Usage
 **************************
 
-See the example Jupyter notebooks below to get started:
-
-1. `Crossref hand-search getting started guide`_
-2. Crossref snowball-search getting started guide (coming soon!)
-
-.. _`Crossref hand-search getting started guide`: https://nbviewer.jupyter.org/github/paperfetcher/paperfetcher/blob/master/examples/Crossref_hand_search.ipynb
+To get started, browse the Jupyter notebooks in the examples/ directory in this
+repository.
 
 Once you understand the workflow, read the Module Documentation below to
-learn more about how to use paperfetcher's various modules, classes and functions.
+learn more about paperfetcher's various modules, classes and functions.
 
 
 The Team
 ******************
 
-Paperfetcher was designed and formulated by `Qiyang Zhang`_ at the `Johns Hopkins University`_ and was developed by `Akash Pallath`_ at the `University of Pennsylvania`_
+Paperfetcher was developed by `Akash Pallath`_ at the `University of Pennsylvania`_ and `Qiyang Zhang`_ at the `Johns Hopkins University`_.
 
-.. _`Qiyang Zhang`: https://qiyangzh.github.io
-.. _`Johns Hopkins University`: https://www.jhu.edu
 .. _`Akash Pallath`: https://apallath.github.io
 .. _`University of Pennsylvania`: https://www.upenn.edu
+.. _`Qiyang Zhang`: https://qiyangzh.github.io
+.. _`Johns Hopkins University`: https://www.jhu.edu
 
 ========================================
 
