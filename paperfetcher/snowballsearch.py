@@ -44,6 +44,9 @@ class CrossrefBackwardReferenceSearch:
         140
         >>> search.result_dois
         {'10.1021/jp972543+', '10.1073/pnas.0708088105',  ... ,  '10.1073/pnas.0705830104'}
+
+    Raises:
+        SearchError if DOI is not indexed in Crossref.
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -116,9 +119,6 @@ class CrossrefBackwardReferenceSearch:
 
         Returns:
             reference_dois (list): List of DOIs
-
-        Raises:
-            SearchError if DOI is not indexed in Crossref.
         """
         components = OrderedDict([("works", doi)])
         query = CrossrefQuery(components)
@@ -147,7 +147,7 @@ class CrossrefBackwardReferenceSearch:
         for doi in iterable:
             # Checks
             if not self._check_doi_exists(doi):
-                raise SearchError("DOI %s does not exist." % doi)  # terminate
+                raise SearchError("DOI %s not indexed in Crossref." % doi)  # terminate
 
             if not self._check_doi_has_references(doi):
                 warnings.warn("DOI %s does not have reference metadata in Crossref." % doi)  # warn but continue
@@ -195,6 +195,12 @@ class COCIBackwardReferenceSearch:
     """
     Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
     by using the COCI REST API.
+
+    Args:
+        search_dois (list): List of DOIs (str) to fetch references of.
+
+    Raises:
+        SearchError if DOI is not found in COCI.
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -217,6 +223,22 @@ class COCIBackwardReferenceSearch:
     # Properties
     def __len__(self):
         return (len(self.result_dois))
+
+    @classmethod
+    def _check_doi_exists(cls, doi: str):
+        """
+        Checks if DOI is indexed in COCI.
+
+        Args:
+            doi (str): DOI to check.
+
+        Returns:
+            bool
+        """
+        components = OrderedDict([("references", doi)])
+        query = COCIQuery(components)
+        query()
+        return query.response.status_code == 200
 
     @classmethod
     def _fetch_all_reference_dois(cls, doi: str):
@@ -252,6 +274,10 @@ class COCIBackwardReferenceSearch:
             iterable = tqdm(self.search_dois)
 
         for doi in iterable:
+            # Checks
+            if not self._check_doi_exists(doi):
+                raise SearchError("DOI %s not found in COCI." % doi)  # terminate
+
             # Fetch & update results
             doi_list = self._fetch_all_reference_dois(doi)
             self.result_dois.update(doi_list)
@@ -294,6 +320,12 @@ class COCIForwardCitationSearch:
     """
     Retrieves the (DOIs of) all articles citing a list of (DOIs of) articles
     by using the COCI REST API.
+
+    Args:
+        search_dois (list): List of DOIs (str) to fetch citations of.
+
+    Raises:
+        SearchError if DOI is not found in COCI.
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -316,6 +348,22 @@ class COCIForwardCitationSearch:
     # Properties
     def __len__(self):
         return (len(self.result_dois))
+
+    @classmethod
+    def _check_doi_exists(cls, doi: str):
+        """
+        Checks if DOI is indexed in COCI.
+
+        Args:
+            doi (str): DOI to check.
+
+        Returns:
+            bool
+        """
+        components = OrderedDict([("citations", doi)])
+        query = COCIQuery(components)
+        query()
+        return query.response.status_code == 200
 
     @classmethod
     def _fetch_all_citation_dois(cls, doi: str):
@@ -350,6 +398,10 @@ class COCIForwardCitationSearch:
             iterable = tqdm(self.search_dois)
 
         for doi in iterable:
+            # Checks
+            if not self._check_doi_exists(doi):
+                raise SearchError("DOI %s not found in COCI." % doi)  # terminate
+
             # Fetch & update results
             doi_list = self._fetch_all_citation_dois(doi)
             self.result_dois.update(doi_list)
