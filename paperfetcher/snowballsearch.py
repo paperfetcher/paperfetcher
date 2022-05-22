@@ -44,9 +44,6 @@ class CrossrefBackwardReferenceSearch:
         140
         >>> search.result_dois
         {'10.1021/jp972543+', '10.1073/pnas.0708088105',  ... ,  '10.1073/pnas.0705830104'}
-
-    Raises:
-        SearchError if DOI is not indexed in Crossref.
     """
     def __init__(self, search_dois: list):
         self.search_dois = search_dois
@@ -84,7 +81,7 @@ class CrossrefBackwardReferenceSearch:
         components = OrderedDict([("works", doi)])
         query = CrossrefQuery(components)
         query()
-        return query.response.status_code == 200
+        return query.response.status_code == 200  # OK?
 
     @classmethod
     def _check_doi_has_references(cls, doi: str):
@@ -101,13 +98,18 @@ class CrossrefBackwardReferenceSearch:
         query = CrossrefQuery(components)
         query()
 
-        data = query.response.json()
-        doi_dicts = data['message'].get('reference', None)
-        if doi_dicts is None:
-            return False
-        if len(doi_dicts) == 0:
-            return False
-        return True
+        try:
+            data = query.response.json()
+            doi_dicts = data['message'].get('reference', None)
+            if doi_dicts is None:
+                return False
+            if len(doi_dicts) == 0:
+                return False
+            return True
+
+        except Exception:
+            warnings.warn("Cannot decode results for the DOI %s" % doi)
+            return False  # Cannot decode => has no references
 
     @classmethod
     def _fetch_all_reference_dois(cls, doi: str):
@@ -119,13 +121,20 @@ class CrossrefBackwardReferenceSearch:
 
         Returns:
             reference_dois (list): List of DOIs
+
+        Raises:
+            SearchError if unable to convert query response to JSON format and extract reference data from it.
         """
         components = OrderedDict([("works", doi)])
         query = CrossrefQuery(components)
         query()
 
-        data = query.response.json()
-        doi_dicts = data['message']['reference']
+        try:
+            data = query.response.json()
+            doi_dicts = data['message']['reference']
+
+        except Exception:
+            raise SearchError("Cannot decode results for the DOI %s" % doi)
 
         reference_dois = []
         for dict in doi_dicts:
@@ -133,7 +142,7 @@ class CrossrefBackwardReferenceSearch:
             if ref_doi is not None:
                 reference_dois.append(ref_doi)
             else:
-                warnings.warn("In references of %s, reference object %s does not have a DOI field." % (doi, dict))  # warn but continue
+                warnings.warn("In references of %s, reference object %s does not have a DOI field. Skipping this reference." % (doi, dict))  # warn but continue
 
         return reference_dois
 
@@ -147,15 +156,20 @@ class CrossrefBackwardReferenceSearch:
         for doi in iterable:
             # Checks
             if not self._check_doi_exists(doi):
-                raise SearchError("DOI %s not indexed in Crossref." % doi)  # terminate
+                warnings.warn("DOI %s not indexed in Crossref. Skipping this DOI." % doi)  # warn but continue
+                continue  # move on to the next DOI
 
             if not self._check_doi_has_references(doi):
-                warnings.warn("DOI %s does not have reference metadata in Crossref." % doi)  # warn but continue
-                break
+                warnings.warn("DOI %s does not have reference metadata in Crossref. Skipping this DOI." % doi)  # warn but continue
+                continue  # move on to the next DOI
 
             # Fetch & update results
-            doi_list = self._fetch_all_reference_dois(doi)
-            self.result_dois.update(doi_list)
+            try:
+                doi_list = self._fetch_all_reference_dois(doi)
+                self.result_dois.update(doi_list)
+
+            except SearchError:
+                warnings.warn("Error in retrieving reference metadata for DOI %s. Skipping this DOI." % doi)
 
     def get_DOIDataset(self):
         """

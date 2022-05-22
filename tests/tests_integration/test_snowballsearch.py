@@ -36,6 +36,18 @@ def test_CrossrefBackward():
     ris_ds.save_ris("./tmp/snowball_crossref_back.ris")
 
 
+def test_CrossrefBackward_errorhandling():
+    input_DOIs = ["10.1021/acs.jpcb.1c02191", "xx.yy.zz/12345.67890", "10.1073/pnas.2018234118"]
+    test_output_DOI_members = ["10.1021/acs.jpcb.8b11423"]
+
+    search = snowballsearch.CrossrefBackwardReferenceSearch(input_DOIs)
+    search()
+    print(len(search))
+    print(search.result_dois)
+    for doi in test_output_DOI_members:
+        assert(doi in search.result_dois)
+
+
 def test_COCIBackward():
     input_DOIs = ["10.1021/acs.jpcb.1c02191", "10.1073/pnas.2018234118"]
     test_output_DOI_members = ["10.1021/acs.jpcb.8b11423"]
