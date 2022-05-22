@@ -5,11 +5,12 @@ Content negotiators to fetch citations in different formats.
 """
 from collections import OrderedDict
 import logging
+import warnings
 
 import rispy
 
 from paperfetcher.apiclients import CrossrefQuery
-from paperfetcher.exceptions import ContentNegotiationError
+from paperfetcher.exceptions import ContentNegotiationError, RISParsingError
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -37,4 +38,9 @@ def crossref_negotiate_ris(doi):
         raise ContentNegotiationError("Could not get RIS metadata for DOI %s" % doi)
 
     # rispy conversion
-    return rispy.loads(query.response.text)
+    try:
+        ris_data = rispy.loads(query.response.text)
+        return ris_data
+
+    except Exception:
+        raise RISParsingError("Could not parse RIS metadata returned by Crossref for DOI %s" % doi)

@@ -18,7 +18,7 @@ from paperfetcher import GlobalConfig
 from paperfetcher.apiclients import CrossrefQuery, COCIQuery
 from paperfetcher.content_negotiators import crossref_negotiate_ris
 from paperfetcher.datastructures import DOIDataset, RISDataset
-from paperfetcher.exceptions import SearchError
+from paperfetcher.exceptions import SearchError, ContentNegotiationError, RISParsingError
 
 # Logging
 logger = logging.getLogger(__name__)
@@ -27,7 +27,7 @@ logger.setLevel(GlobalConfig.loglevel)
 
 class CrossrefBackwardReferenceSearch:
     """
-    Retrieves the (DOIs of) all articles in the references of a list of (DOIs of) articles
+    Retrieves (the DOIs of) all articles in the references of a list of (DOIs of) articles
     by using the Crossref REST API.
 
     Args:
@@ -196,8 +196,13 @@ class CrossrefBackwardReferenceSearch:
             result_dois = tqdm(self.result_dois, desc="Converting results to RIS format.")
 
         for doi in result_dois:
-            # Use Crossref for content negotation
-            ris_ref = crossref_negotiate_ris(doi)[0]
+            try:
+                # Use Crossref for content negotation
+                ris_ref = crossref_negotiate_ris(doi)[0]
+
+            except (ContentNegotiationError, RISParsingError):
+                warnings.warn("Failed to get RIS metadata for DOI %s. Appending just the DOI to the RIS dataset." % doi)
+                ris_ref = {'type_of_reference': 'JOUR', 'doi': doi}
 
             # Add to list
             RIS_dicts.append(ris_ref)

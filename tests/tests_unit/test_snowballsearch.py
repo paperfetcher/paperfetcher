@@ -43,3 +43,15 @@ def test_crback_fetch_all_reference_dois_errorhandling():
         snowballsearch.CrossrefBackwardReferenceSearch._fetch_all_reference_dois("xx.yy.zz/pqr123")
     except SearchError:
         return True
+
+
+def test_crback_get_RISDataset():
+    search = snowballsearch.CrossrefBackwardReferenceSearch([""])
+    search.result_dois = ["10.1021/acs.jpcb.1c02191"]
+    print(search.get_RISDataset())
+
+
+def test_crback_get_RISDataset_errorhandling():
+    search = snowballsearch.CrossrefBackwardReferenceSearch([""])
+    search.result_dois = ["xx.yy.zz/pqr123"]
+    print(search.get_RISDataset())

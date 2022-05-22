@@ -20,6 +20,11 @@ class ContentNegotiationError(Exception):
     pass
 
 
+class RISParsingError(Exception):
+    """Exception raised when RIS parsing fails."""
+    pass
+
+
 class DatasetError(Exception):
     """Exception raised when an incorrect operation is performed on a dataset."""
     pass
