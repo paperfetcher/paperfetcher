@@ -165,6 +165,9 @@ class CrossrefSearch:
 
         Returns:
             data (dict): JSON response as Python dictionary.
+
+        Raises:
+            SearchError if ISSN does not exist, or if unable to decode JSON response.
         """
         # Set rows and offset
         query_params['rows'] = size
@@ -199,6 +202,9 @@ class CrossrefSearch:
 
         Returns:
             output_item (list): List of extracted field values.
+
+        Raises:
+            SearchError if field parser is missing.
         """
         output_item = []
         for fidx in range(len(field_list)):

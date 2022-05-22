@@ -4,7 +4,6 @@
 Unit test suite for paperfetcher.handsearch package.
 """
 import logging
-import sys
 
 from paperfetcher import handsearch
 from paperfetcher.exceptions import SearchError
