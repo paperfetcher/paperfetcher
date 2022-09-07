@@ -8,15 +8,18 @@
 
 ## About
 
-Paperfetcher is a Python package to to automate handsearching and citation searching
+Paperfetcher is a Python package to automate handsearching and citation searching
 (snowballing) for systematic reviews. Paperfetcher works with Python 3.7+.
 
 To learn more about Paperfetcher, visit [paperfetcher.github.io](https://paperfetcher.github.io/).
 
 ## Usage
 
-To get started, browse the Jupyter notebooks in the `examples/` directory in this
-repository.
+To get started, browse the following *Getting Started* Jupyter notebooks (also in the `examples/` directory in this
+repository):
+
+1. [Getting started with handsearching](https://mybinder.org/v2/gh/paperfetcher/paperfetcher/master?labpath=examples%2F01_handsearching.ipynb)
+2. [Getting started with citation searching](https://mybinder.org/v2/gh/paperfetcher/paperfetcher/master?labpath=examples%2F02_citation_searching.ipynb)
 
 Once you understand the workflow, read the [Module Documentation](https://paperfetcher.github.io/paperfetcher/paperfetcher.html) to
 learn more about paperfetcher's various modules, classes and functions.
