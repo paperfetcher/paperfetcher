@@ -9,7 +9,7 @@ import logging
 
 import pandas as pd
 import rispy
-from rispy.config import LIST_TYPE_TAGS, TAG_KEY_MAPPING
+from rispy.config import LIST_TYPE_TAGS, TAG_KEY_MAPPING, DELIMITED_TAG_MAPPING
 
 from paperfetcher import GlobalConfig
 from paperfetcher.exceptions import DatasetError
@@ -283,7 +283,8 @@ class HeadlessRISWriter(rispy.writer.BaseWriter):
     PATTERN = "{tag}  - {value}"
     DEFAULT_MAPPING = TAG_KEY_MAPPING
     DEFAULT_LIST_TAGS = LIST_TYPE_TAGS
-
+    DEFAULT_DELIMITER_MAPPING = DELIMITED_TAG_MAPPING
+    
 
 class RISDataset(Dataset):
     """
